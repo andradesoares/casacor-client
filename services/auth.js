@@ -14,7 +14,7 @@ const TryLocalSignin = async (setLoading, route) => {
 
 const signUp = async (body, setError) => {
   try {
-    await api.post(`http://localhost:3001/user/${body.tipo}/signup`, body);
+    await api.post(`/user/${body.tipo}/signup`, body);
     setError('');
   } catch (error) {
     setError(error.response.data.error);

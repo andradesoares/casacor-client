@@ -33,7 +33,7 @@ const Arquivos = ({ userId, nome, logo, setLogo }) => {
         <div style={{ height: '200px', width: '200px', display: 'flex', flexDirection: 'column' }}>
           <img
             style={{ height: '150px' }}
-            src={`http://localhost:3001/images/fornecedores/${logo}.jpg`}
+            src={`http://https://casa-cor.herokuapp.com/images/fornecedores/${logo}.jpg`}
             alt="BigCo Inc. logo"
           />
           <button onClick={() => removerFile(logo, userId)}>Remover Imagem</button>
@@ -42,7 +42,7 @@ const Arquivos = ({ userId, nome, logo, setLogo }) => {
         <div style={{ height: '200px', width: '200px', display: 'flex', flexDirection: 'column' }}>
           <img
             style={{ height: '150px' }}
-            src={`http://localhost:3001/images/not-found.jpg`}
+            src={`http://https://casa-cor.herokuapp.com/images/not-found.jpg`}
             alt="BigCo Inc. logo"
           />
           <div
