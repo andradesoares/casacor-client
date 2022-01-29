@@ -7,28 +7,36 @@ const Admins = ({ adminId, admins, setAdmins }) => {
   const [editarPerfil, setEditarPerfil] = useState(false);
   const [tipo, setTipo] = useState('basico');
   const [adicionar, setAdicionar] = useState(false);
-
+  const [error, setError] = useState('');
   const handleChange = (event) => {
     setTipo(event.target.value);
   };
 
   const criarUsuarioHandler = async (event) => {
-    event.preventDefault();
-    const response = await api.post(`/user/admin/signup`, {
-      admin_userId: adminId,
-      nome: nome,
-      email: email,
-      tipo: tipo,
-    });
+    try {
+      await api.post(`/user/${body.tipo}/signup`, body);
 
-    setAdmins([
-      ...admins,
-      { admin_userId: response.data.userId, nome: nome, email: email, tipo: tipo },
-    ]);
+      event.preventDefault();
+      const response = await api.post(`/user/admin/signup`, {
+        admin_userId: adminId,
+        nome: nome,
+        email: email,
+        tipo: tipo,
+      });
+
+      setAdmins([
+        ...admins,
+        { admin_userId: response.data.userId, nome: nome, email: email, tipo: tipo },
+      ]);
+    } catch (error) {
+      setError(error.response.data.error);
+    }
+
     setAdicionar(false);
     setNome('');
     setEmail('');
     setTipo('basico');
+    setError('');
   };
 
   const excluirAdmin = async (admin_id) => {
@@ -135,6 +143,7 @@ const Admins = ({ adminId, admins, setAdmins }) => {
       <div onClick={setAdicionar}>
         <button>Adicionar</button>
       </div>
+      <div>{error}</div>
     </>
   );
 };
