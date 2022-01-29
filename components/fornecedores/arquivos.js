@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import api from '../../services/api';
+import axios from 'axios';
 
 const Arquivos = ({ userId, nome, logo, setLogo }) => {
   const filesElement = useRef(null);
