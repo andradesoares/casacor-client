@@ -13,7 +13,7 @@ const Arquivos = ({ userId, nome, logo, setLogo }) => {
       dataForm.append('logo', logo);
     }
 
-    const response = await fetch(`http://localhost:3001/fornecedor/fileUpload`, {
+    const response = await fetch(`https://casa-cor.herokuapp.com/fornecedor/fileUpload`, {
       method: 'POST',
       body: dataForm,
     });
