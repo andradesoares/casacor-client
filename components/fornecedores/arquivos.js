@@ -11,10 +11,13 @@ const Arquivos = ({ userId, nome, logo, setLogo }) => {
       dataForm.append('nome', nome);
       dataForm.append('logo', logo);
     }
-    const res = await api.post(`/fornecedor/fileUpload`, {
+    const response = await axios({
+      method: 'post',
+      url: 'https://casa-cor.herokuapp.com/fornecedor/fileUpload',
       body: dataForm,
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
-    const data = await res.json();
+    const data = await response.json();
     setLogo(data.id);
   };
 
