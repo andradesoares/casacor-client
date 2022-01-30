@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { TryLocalSignin } from '../../services/auth';
 import { trocarSenha } from '../../services/auth';
 
@@ -9,10 +10,10 @@ function RecuperSenha() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-
+  const [message, setMessage] = useState('');
   const submitHandler = async (event) => {
     event.preventDefault();
-    trocarSenha(tipo, password, userId, resetToken, setError);
+    trocarSenha(tipo, password, userId, resetToken, setError, setMessage);
   };
 
   useEffect(() => {
@@ -47,7 +48,17 @@ function RecuperSenha() {
               </div>
             </div>
           </form>
-          <div>{error}</div>
+          <div>
+            {error}
+            {message ? (
+              <>
+                {message}{' '}
+                <Link href={`/${tipo}`}>
+                  <a style={{ margin: '10px' }}> Profissional</a>
+                </Link>{' '}
+              </>
+            ) : null}
+          </div>
         </section>
       </>
     );

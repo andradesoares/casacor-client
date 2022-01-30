@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { TryLocalSignin, trocarSenha } from '../../../services/auth';
+import Link from 'next/link';
 
 function RecuperSenha() {
   const { query } = useRouter();
@@ -9,6 +10,7 @@ function RecuperSenha() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     TryLocalSignin(router.push);
@@ -21,7 +23,7 @@ function RecuperSenha() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    trocarSenha('admin', password, userId, resetToken, setError);
+    trocarSenha('admin', password, userId, resetToken, setError, setMessage);
   };
 
   if (isLoading) {
@@ -47,7 +49,17 @@ function RecuperSenha() {
               </div>
             </div>
           </form>
-          <div>{error}</div>
+          <div>
+            {error ? error : null}
+            {message ? (
+              <>
+                {message}{' '}
+                <Link href="/admin">
+                  <a style={{ margin: '10px' }}> Profissional</a>
+                </Link>{' '}
+              </>
+            ) : null}
+          </div>
         </section>
       </>
     );

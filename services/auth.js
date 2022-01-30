@@ -41,7 +41,7 @@ const requisitarNovaSenha = async (email, tipo, setError) => {
   }
 };
 
-const trocarSenha = async (tipo, password, userId, resetToken, setError) => {
+const trocarSenha = async (tipo, password, userId, resetToken, setError, setMessage) => {
   try {
     const response = await api.post('/user/passwordReset', {
       tipo,
@@ -49,6 +49,7 @@ const trocarSenha = async (tipo, password, userId, resetToken, setError) => {
       userId,
       resetToken,
     });
+    setMessage(response.data.message);
   } catch (error) {
     setError(error.response.data.error);
   }
