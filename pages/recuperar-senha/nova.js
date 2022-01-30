@@ -10,14 +10,19 @@ function RecuperSenha() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    TryLocalSignin(setIsLoading, router.push);
-  }, []);
-
   const submitHandler = async (event) => {
     event.preventDefault();
     trocarSenha(tipo, password, userId, resetToken, setError);
   };
+
+  useEffect(() => {
+    TryLocalSignin(router.push);
+
+    let timer1 = setTimeout(() => setIsLoading(false), 500);
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, []);
 
   if (isLoading) {
     return null;

@@ -8,7 +8,12 @@ function AuthPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    TryLocalSignin(setIsLoading, router.push);
+    TryLocalSignin(router.push);
+
+    let timer1 = setTimeout(() => setIsLoading(false), 500);
+    return () => {
+      clearTimeout(timer1);
+    };
   }, []);
 
   if (isLoading) {
@@ -17,6 +22,7 @@ function AuthPage() {
     return (
       <>
         <div>
+          {isLoading}
           <div>
             <Link href="/fornecedor">
               <a style={{ margin: '10px' }}>Fornecedor</a>

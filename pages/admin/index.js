@@ -7,11 +7,16 @@ function AuthPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    TryLocalSignin(setIsLoading, router.push);
-  }, []);
-
   const path = router.pathname.replace('/', '');
+
+  useEffect(() => {
+    TryLocalSignin(router.push);
+
+    let timer1 = setTimeout(() => setIsLoading(false), 500);
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, []);
 
   if (isLoading) {
     return null;

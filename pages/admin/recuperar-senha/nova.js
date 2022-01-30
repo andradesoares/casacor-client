@@ -11,7 +11,12 @@ function RecuperSenha() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    TryLocalSignin(setIsLoading, router.push);
+    TryLocalSignin(router.push);
+
+    let timer1 = setTimeout(() => setIsLoading(false), 500);
+    return () => {
+      clearTimeout(timer1);
+    };
   }, []);
 
   const submitHandler = async (event) => {

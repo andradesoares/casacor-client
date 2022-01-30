@@ -1,6 +1,6 @@
 import api from './api';
 
-const TryLocalSignin = async (setLoading, route) => {
+const TryLocalSignin = async (route) => {
   const token = localStorage.getItem('signIntoken');
   const userId = localStorage.getItem('userId');
   const tipoLocal = localStorage.getItem('tipo');
@@ -8,8 +8,6 @@ const TryLocalSignin = async (setLoading, route) => {
   if (token && userId && tipoLocal) {
     route(`/${tipoLocal}/${userId}`);
   }
-
-  setLoading(false);
 };
 
 const signUp = async (body, setError) => {

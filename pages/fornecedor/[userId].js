@@ -4,9 +4,11 @@ import api from '../../services/api';
 import Infos from '../../components/fornecedores/infos';
 import Profissionais from '../../components/fornecedores/profissionais';
 import Arquivos from '../../components/fornecedores/arquivos';
-import { signOut } from '../../services/auth';
+import { signOut, TryLocalSignin } from '../../services/auth';
 
 function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [usuario, setUsuario] = useState([]);
   const [profissionaisAdicionados, setProfissionaisAdicionados] = useState([]);
   const [profissionaisNaoAdicionados, setProfissionaisNaoAdicionados] = useState([]);
@@ -19,6 +21,15 @@ function Home() {
     if (Object.keys(router.query).length > 0) {
       usuarioLogado(userId);
       getProfissionais(userId);
+
+      const token = localStorage.getItem('signIntoken');
+      const userIdLocal = localStorage.getItem('userId');
+      const tipoLocal = localStorage.getItem('tipo');
+
+      if (!token || !userIdLocal || !tipoLocal) {
+        router.push(`/`);
+      }
+      setIsLoading(false);
     }
   }, [router.query]);
 
@@ -40,61 +51,65 @@ function Home() {
     setProfissionaisNaoAdicionados(response.data.profissionaisNaoAdicionados);
   };
 
-  return (
-    <>
-      <div>
+  if (isLoading) {
+    return null;
+  } else {
+    return (
+      <>
         <div>
-          <button
-            type="button"
-            onClick={() => {
-              setDisplay('home');
-            }}
-          >
-            Home
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setDisplay('profissionais');
-            }}
-          >
-            Profissionais
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              signOut(router.push);
-            }}
-          >
-            Logout
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setDisplay('arquivos');
-            }}
-          >
-            Arquivos
-          </button>
-        </div>
-        {display == 'home' && usuario.nome !== undefined ? (
-          <Infos usuario={usuario} setUsuario={setUsuario} />
-        ) : null}
+          <div>
+            <button
+              type="button"
+              onClick={() => {
+                setDisplay('home');
+              }}
+            >
+              Home
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setDisplay('profissionais');
+              }}
+            >
+              Profissionais
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                signOut(router.push);
+              }}
+            >
+              Logout
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setDisplay('arquivos');
+              }}
+            >
+              Arquivos
+            </button>
+          </div>
+          {display == 'home' && usuario.nome !== undefined ? (
+            <Infos usuario={usuario} setUsuario={setUsuario} />
+          ) : null}
 
-        {display == 'profissionais' ? (
-          <Profissionais
-            setStateProfissionaisAdicionados={setProfissionaisAdicionados}
-            setStateProfissionaisNaoAdicionados={setProfissionaisNaoAdicionados}
-            profissionaisAdicionados={profissionaisAdicionados}
-            profissionaisNaoAdicionados={profissionaisNaoAdicionados}
-          />
-        ) : null}
-        {display == 'arquivos' ? (
-          <Arquivos userId={userId} nome={usuario.nome} logo={logo} setLogo={setLogo} />
-        ) : null}
-      </div>
-    </>
-  );
+          {display == 'profissionais' ? (
+            <Profissionais
+              setStateProfissionaisAdicionados={setProfissionaisAdicionados}
+              setStateProfissionaisNaoAdicionados={setProfissionaisNaoAdicionados}
+              profissionaisAdicionados={profissionaisAdicionados}
+              profissionaisNaoAdicionados={profissionaisNaoAdicionados}
+            />
+          ) : null}
+          {display == 'arquivos' ? (
+            <Arquivos userId={userId} nome={usuario.nome} logo={logo} setLogo={setLogo} />
+          ) : null}
+        </div>
+      </>
+    );
+  }
 }
 
 export default Home;
