@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { TryLocalSignin } from '../../services/auth';
 import { trocarSenha } from '../../services/auth';

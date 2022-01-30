@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useState } from 'react';
 import api from '../../services/api';
 
 const Admins = ({ adminId, admins, setAdmins }) => {

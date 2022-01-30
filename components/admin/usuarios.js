@@ -15,6 +15,7 @@ const Usuarios = ({
 }) => {
   const [display, setDisplay] = useState('todos');
   const [usuario, setUsuario] = useState([]);
+
   const updateStatus = async (tipoUsuario, status, userId) => {
     const response = await api.post(`/admin/respostaCadastro`, {
       admin_userId: adminId,
@@ -42,13 +43,13 @@ const Usuarios = ({
     }
   };
 
-  const Buttons = (usuario, userId) => {
+  const Buttons = (tipoUsuario, usuario, userId) => {
     return (
       <>
         <button
           style={{ minWidth: '120px' }}
           onClick={() => {
-            updateStatus(usuario, usuario.status, userId);
+            updateStatus(tipoUsuario, usuario.status, userId);
           }}
         >
           {usuario.status == 'confirmado' ? 'Bloquear Usuario' : null}
@@ -135,7 +136,7 @@ const Usuarios = ({
                     {profissional.status}
                   </p>
                   {usuarioTipo == 'pleno'
-                    ? Buttons(profissional, profissional.profissional_userId)
+                    ? Buttons('profissional', profissional, profissional.profissional_userId)
                     : null}
                 </div>
               </>
@@ -162,7 +163,7 @@ const Usuarios = ({
                     {fornecedor.status}
                   </p>
                   {usuarioTipo == 'pleno'
-                    ? Buttons(fornecedor, fornecedor.fornecedor_userId)
+                    ? Buttons('fornecedor', fornecedor, fornecedor.fornecedor_userId)
                     : null}
                 </div>
               </>

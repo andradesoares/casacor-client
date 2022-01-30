@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { requisitarNovaSenha } from '../../services/auth';
 
