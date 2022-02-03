@@ -3,7 +3,6 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: 'https://casa-cor.herokuapp.com',
 });
-
 api.interceptors.request.use(async (config) => {
   const token = localStorage.getItem('signIntoken');
   if (token) {

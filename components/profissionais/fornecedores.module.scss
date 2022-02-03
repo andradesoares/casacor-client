@@ -1,0 +1,38 @@
+.container {
+  button {
+    border: none;
+    padding: 10px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 600;
+    background-color: #ff6c44;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  ul {
+    list-style-type: none;
+    li {
+      display: flex;
+      align-items: center;
+      p {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .fornecedor {
+    text-transform: uppercase;
+    padding: 0 40px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .selected {
+    color: #ff6c44;
+    font-weight: 600;
+  }
+  .unselected {
+    color: rgba(227, 120, 75, 0.4);
+  }
+}

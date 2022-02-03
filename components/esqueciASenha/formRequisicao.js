@@ -1,41 +1,65 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Link from 'next/link';
 import { requisitarNovaSenha } from '../../services/auth';
+
+import classes from './formRequisicao.module.scss';
 
 function FormEsqueciSenha({ usuario }) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    requisitarNovaSenha(email, usuario, setError);
+    requisitarNovaSenha(email, usuario, setError, setMessage);
+  };
+
+  const isEnableSignUp = () => {
+    return email != '';
   };
 
   return (
-    <section>
-      <h1>Solicitar recuperação de senha</h1>
+    <div style={{ minWidth: '392px' }} className={classes.container}>
+      <h1 className={classes.h1}>Solicitar recuperação de senha</h1>
       <form onSubmit={submitHandler}>
-        <div>
+        {' '}
+        <label style={{ textTransform: 'upperCase' }} htmlFor="email">
+          Email
+        </label>
+        <div className={classes.containerInput}>
           <input
-            placeholder="Email"
+            placeholder="Seu e-mail"
             type="email"
+            name="email"
             id="email"
-            required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-        </div>
-        <div>
-          <div>
-            <button>Solicitar Requisicao</button>
+        </div>{' '}
+        <div
+          style={{ justifyContent: 'space-between', paddingTop: '0' }}
+          className={classes.buttonContainer}
+        >
+          <div style={{ justifyContent: 'space-between' }} className={classes.buttonContainer}>
+            <Link className={classes.esqueciButton} href={`/`}>
+              Login
+            </Link>
           </div>
-          <div>
-            <Link href={`/${usuario}`}>Login</Link>
-          </div>
+          <button
+            className={`${classes.loginButton} ${
+              isEnableSignUp() ? classes.loginButtonEnabled : classes.loginButtonDisabled
+            }`}
+            disabled={isEnableSignUp() ? false : true}
+          >
+            Enviar
+          </button>
         </div>
       </form>
-      <div>{error}</div>
-    </section>
+      <div>
+        {error}
+        {message}
+      </div>
+    </div>
   );
 }
 

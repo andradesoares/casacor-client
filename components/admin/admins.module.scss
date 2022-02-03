@@ -1,0 +1,80 @@
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  .selected {
+    color: #ff6c44;
+    font-weight: 600;
+  }
+  .unselected {
+    color: rgba(227, 120, 75, 0.4);
+  }
+
+  .button {
+    text-transform: uppercase;
+    padding: 0 40px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.downloadButton {
+  border: none;
+  padding: 10px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 600;
+  background-color: #ff6c44;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.salvarButton {
+  border: none;
+  padding: 10px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 600;
+}
+.salvarButtonEnabled {
+  background-color: #ff6c44;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.salvarButtonDisabled {
+  background-color: rgba(227, 120, 75, 0.4);
+}
+
+.containerInput {
+  display: flex;
+  background-color: white;
+  border: 1px solid black;
+  justify-content: space-between;
+  padding: 0;
+
+  input,
+  select,
+  option {
+    border: none;
+    width: 90%;
+    padding: 10px 0;
+    padding-left: 10px;
+    &:-webkit-autofill {
+      box-shadow: 0 0 0px 1000px white inset;
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+
+    &:-webkit-autofill:focus {
+      box-shadow: 0 0 0 50px white inset;
+      -webkit-box-shadow: 0 0 0 50px white inset;
+      -webkit-text-fill-color: #333;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: white;
+    }
+  }
+}

@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import { signIn } from '../../services/auth';
 
-function FormLogin({ usuario }) {
+import classes from './formLogin.module.scss';
+import eye_close from '../../images/icons/eye_close.png';
+import eye from '../../images/icons/eye.png';
+
+function FormLogin({ usuario, setUsuario }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPass, setShowPass] = useState(false);
 
   const router = useRouter();
 
@@ -16,41 +22,85 @@ function FormLogin({ usuario }) {
     signIn(email, password, usuario, router.push, setError);
   };
 
+  const isEnableSignUp = () => {
+    return email != '' && password != '';
+  };
+
   return (
-    <section>
-      <h1>Login {usuario}</h1>
+    <div className={classes.container}>
+      <h1 className={classes.h1}>Entrar</h1>
+      <div className={classes.buttonContainer}>
+        <p
+          className={`${classes.button} ${
+            usuario == 'profissional' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => setUsuario('profissional')}
+        >
+          Profissional
+        </p>
+        <p
+          className={`${classes.button} ${
+            usuario == 'fornecedor' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => setUsuario('fornecedor')}
+        >
+          Fornecedor
+        </p>
+      </div>
       <form onSubmit={submitHandler}>
-        <div>
+        {' '}
+        <label style={{ textTransform: 'upperCase' }} htmlFor="email">
+          Email
+        </label>
+        <div className={classes.containerInput}>
           <input
-            placeholder="Email"
+            placeholder="Seu e-mail"
             type="email"
+            name="email"
             id="email"
-            required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-        </div>
-        <div>
+        </div>{' '}
+        <label style={{ textTransform: 'upperCase' }} htmlFor="password">
+          Senha
+        </label>
+        <div className={classes.containerInput}>
           <input
-            placeholder="Password"
-            type="password"
+            placeholder="Sua senha"
+            type={showPass ? 'text' : 'password'}
             id="password"
-            required
+            name="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-          />
+          ></input>{' '}
+          <div style={{ padding: '0', display: 'flex', alignItems: 'center', marginRight: '5px' }}>
+            <Image
+              className={classes.imagePassword}
+              onClick={() => setShowPass(!showPass)}
+              src={showPass ? eye_close : eye}
+              alt="Mostrar senha"
+              width={15}
+              height={15}
+            />
+          </div>
         </div>
-        <div>
-          <div>
-            <button>Login</button>
-          </div>
-          <div>
-            <Link href={`/recuperar-senha/${usuario}`}>Esqueci Senha</Link>
-          </div>
+        <div style={{ justifyContent: 'space-between' }} className={classes.buttonContainer}>
+          <Link className={classes.esqueciButton} href={`/recuperar-senha/${usuario}`}>
+            Esqueci Senha
+          </Link>
+          <button
+            className={`${classes.loginButton} ${
+              isEnableSignUp() ? classes.loginButtonEnabled : classes.loginButtonDisabled
+            }`}
+            disabled={isEnableSignUp() ? false : true}
+          >
+            Login
+          </button>
         </div>
       </form>
-      <div>{error}</div>
-    </section>
+      {error && <div>{error}</div>}
+    </div>
   );
 }
 

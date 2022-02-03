@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import api from '../../services/api';
 
+import classes from './admins.module.scss';
+
 const Admins = ({ adminId, admins, setAdmins }) => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -66,15 +68,19 @@ const Admins = ({ adminId, admins, setAdmins }) => {
     setUsuario(response.data.usuario);
   };
 
+  const isEnableSignUp = () => {
+    return nome != '' && email != '';
+  };
+
   return (
     <>
       <h3>Admins</h3>
       {admins.map((admin) => (
         <div key={admin.email} style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ minWidth: '300px', paddingRight: '50px' }}>
+          <div style={{ minWidth: '30%', paddingRight: '50px' }}>
             <p>{admin.nome}</p>
           </div>
-          <div style={{ minWidth: '300px', paddingRight: '50px' }}>
+          <div style={{ minWidth: '30%', paddingRight: '50px' }}>
             <p>{admin.email}</p>
           </div>
           <div>
@@ -85,69 +91,102 @@ const Admins = ({ adminId, admins, setAdmins }) => {
               <option value="pleno">Pleno</option>
             </select> */}
           </div>
-          <div
-            onClick={() => {
-              excluirAdmin(admin.admin_userId);
-            }}
-          >
-            <button>Excluir</button>
+          <div>
+            <button
+              className={classes.downloadButton}
+              onClick={() => {
+                excluirAdmin(admin.admin_userId);
+              }}
+            >
+              Excluir
+            </button>
           </div>
-          <div
+          {/* <div
             onClick={() => {
               excluirAdmin(admin.admin_userId);
             }}
           >
             <button>Editar</button>
-          </div>
+          </div> */}
         </div>
       ))}
       {adicionar && (
         <form onSubmit={criarUsuarioHandler}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ minWidth: '300px', paddingRight: '50px' }}>
-              <input
-                placeholder="Nome"
-                value={nome}
-                type="text"
-                id="nome"
-                required
-                onChange={(event) => setNome(event.target.value)}
-              />
+          <div style={{ display: 'flex', alignItems: 'flex-end', minWidth: '100%' }}>
+            <div style={{ minWidth: '33%' }}>
+              <label style={{ textTransform: 'upperCase' }} htmlFor="Nome">
+                Nome
+              </label>{' '}
+              <div className={classes.containerInput}>
+                <input
+                  placeholder="Nome"
+                  name="nome"
+                  type="text"
+                  id="nome"
+                  value={nome}
+                  onChange={(event) => setNome(event.target.value)}
+                />
+              </div>
             </div>
-            <div style={{ minWidth: '300px', paddingRight: '50px' }}>
-              <input
-                placeholder="Email"
-                value={email}
-                type="email"
-                id="email"
-                required
-                onChange={(event) => setEmail(event.target.value)}
-              />
+            <div style={{ minWidth: '33%' }}>
+              <label style={{ textTransform: 'upperCase' }} htmlFor="email">
+                Email
+              </label>
+              <div className={classes.containerInput}>
+                <input
+                  placeholder="Seu e-mail"
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </div>
             </div>
-            <div>
+            <div
+              className={classes.containerInput}
+              style={{ marginBottom: '10px', maxHeight: '35px', marginLeft: '10px' }}
+            >
               <select value={tipo} onChange={handleChange}>
                 <option value="basico">Básico</option>
                 <option value="pleno">Pleno</option>
               </select>
             </div>
-            <div>
-              <button>Salvar</button>
-            </div>
-            <div>
-              <button onClick={cancelarEditarPerfil}>Cancelar</button>
-            </div>
           </div>
         </form>
       )}
-      <div>
-        <button
-          onClick={() => {
-            setAdicionar(true);
-          }}
-        >
-          Adicionar
-        </button>
-      </div>
+      {adicionar ? (
+        <>
+          <div style={{ display: 'flex', padding: '0' }}>
+            <div>
+              <button
+                className={`${classes.salvarButton} ${
+                  isEnableSignUp() ? classes.salvarButtonEnabled : classes.salvarButtonDisabled
+                }`}
+                disabled={isEnableSignUp() ? false : true}
+              >
+                Salvar
+              </button>
+            </div>
+            <div>
+              <button className={classes.downloadButton} onClick={cancelarEditarPerfil}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div>
+          <button
+            className={classes.downloadButton}
+            onClick={() => {
+              setAdicionar(true);
+            }}
+          >
+            Adicionar
+          </button>
+        </div>
+      )}
       <div>{error}</div>
     </>
   );

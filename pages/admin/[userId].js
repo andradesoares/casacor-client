@@ -4,7 +4,12 @@ import api from '../../services/api';
 import Admins from '../../components/admin/admins';
 import Usuarios from '../../components/admin/usuarios';
 import Planilhas from '../../components/admin/planilhas';
-import { signOut, TryLocalSignin } from '../../services/auth';
+import NavBar from '../../components/layout/navbar';
+import MenuLateral from '../../components/layout/menuLateral';
+import ItemMenuLateral from '../../components/layout/itemMenuLateral';
+import PaginaPrincipal from '../../components/admin/home';
+
+import classes from './user.module.scss';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +35,11 @@ function Home() {
       if (!token || !userIdLocal || !tipoLocal) {
         router.push(`/`);
       }
-      setIsLoading(false);
+
+      let timer1 = setTimeout(() => setIsLoading(false), 500);
+      return () => {
+        clearTimeout(timer1);
+      };
     }
   }, [router.query]);
 
@@ -53,64 +62,67 @@ function Home() {
     setFornecedores(response.data.fornecedores);
     setProfissionais(response.data.profissionais);
   };
+
   if (isLoading) {
     return null;
   } else {
     return (
       <>
+        <NavBar usuario={usuario} tipo={localStorage.getItem('tipo')} />
+        <MenuLateral>
+          <ItemMenuLateral
+            setDisplay={setDisplay}
+            style={{
+              borderBottom: '1px solid black',
+            }}
+            item="home"
+          />{' '}
+          <ItemMenuLateral
+            setDisplay={setDisplay}
+            style={{
+              borderBottom: '1px solid black',
+            }}
+            item="planilhas"
+          />{' '}
+          {usuario.tipo == 'pleno' ? (
+            <ItemMenuLateral
+              setDisplay={setDisplay}
+              style={{
+                borderBottom: '1px solid black',
+              }}
+              item="administradores"
+            />
+          ) : null}
+          <ItemMenuLateral setDisplay={setDisplay} item="usuarios" />{' '}
+        </MenuLateral>
         <div>
-          <div>
-            <button
-              type="button"
-              onClick={() => {
-                setDisplay('home');
-              }}
-            >
-              Home
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setDisplay('usuarios');
-              }}
-            >
-              Usuarios
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setDisplay('planilhas');
-              }}
-            >
-              Planilhas
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                signOut(router.push);
-              }}
-            >
-              Logout
-            </button>
-          </div>
-          {display == 'home' && usuario.tipo == 'pleno' ? (
-            <Admins adminId={usuario.admin_userId} admins={admins} setAdmins={setAdmins} />
+          {display == 'home' ? (
+            <div className={classes.container}>
+              <PaginaPrincipal />
+            </div>
+          ) : null}
+          {display == 'administradores' && usuario.tipo == 'pleno' ? (
+            <div className={classes.container}>
+              <Admins adminId={usuario.admin_userId} admins={admins} setAdmins={setAdmins} />
+            </div>
           ) : null}
 
           {display == 'usuarios' ? (
-            <Usuarios
-              usuarioTipo={usuario.tipo}
-              fornecedores={fornecedores}
-              profissionais={profissionais}
-              setFornecedores={setFornecedores}
-              setProfissionais={setProfissionais}
-              adminId={usuario.admin_userId}
-            />
+            <div className={classes.container}>
+              <Usuarios
+                usuarioTipo={usuario.tipo}
+                fornecedores={fornecedores}
+                profissionais={profissionais}
+                setFornecedores={setFornecedores}
+                setProfissionais={setProfissionais}
+                adminId={usuario.admin_userId}
+              />
+            </div>
           ) : null}
           {display == 'planilhas' ? (
-            <Planilhas fornecedores={fornecedores} profissionais={profissionais} />
+            <div className={classes.container}>
+              <Planilhas fornecedores={fornecedores} profissionais={profissionais} />
+            </div>
           ) : null}
         </div>
       </>

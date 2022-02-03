@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import api from '../../services/api';
 
+import classes from './infos.module.scss';
+
+import { phone } from '../../services/helpers';
+
 function Infos({ usuario, setUsuario }) {
   const [editarPerfil, setEditarPerfil] = useState(false);
   const [nome, setNome] = useState(usuario.nome);
@@ -32,74 +36,125 @@ function Infos({ usuario, setUsuario }) {
     setPerfilInstagram(usuario.perfilInstagram);
   };
 
+  const isEnableSignUp = () => {
+    return (
+      nome != '' &&
+      descricaoProduto != '' &&
+      telefone != '' &&
+      siteEmpresa != '' &&
+      perfilInstagram != ''
+    );
+  };
+
   return (
     <>
       {editarPerfil ? (
-        <div>
+        <div className={classes.container}>
           <form onSubmit={editarPerfilHandler}>
-            <div>
-              <input
-                placeholder="Nome"
-                type="text"
-                id="nome"
-                required
-                value={nome}
-                onChange={(event) => setNome(event.target.value)}
-              />
+            <div className={classes.formContainer}>
+              <label className={classes.titulo} htmlFor="nome">
+                Nome:
+              </label>
+              <div className={classes.containerInput}>
+                <input
+                  placeholder="Nome"
+                  type="text"
+                  name="nome"
+                  value={nome}
+                  onChange={(event) => setNome(event.target.value)}
+                />
+              </div>
             </div>
-            <div>
-              <input
-                placeholder="Descrição do produto"
-                type="text"
-                id="descricaoProduto"
-                required
-                value={descricaoProduto}
-                onChange={(event) => setDescricaoProduto(event.target.value)}
-              />
+            <div className={classes.formContainer}>
+              <label className={classes.titulo} htmlFor="nome">
+                Descrição do produto:
+              </label>
+              <div className={classes.containerInput}>
+                <input
+                  placeholder="Descrição do produto"
+                  type="text"
+                  id="descricaoProduto"
+                  value={descricaoProduto}
+                  onChange={(event) => setDescricaoProduto(event.target.value)}
+                />
+              </div>
             </div>
-            <div>
-              <input
-                placeholder="Telefone"
-                type="tel"
-                required
-                value={telefone}
-                onChange={(event) => setTelefone(event.target.value)}
-              />
+            <div className={classes.formContainer}>
+              <label className={classes.titulo} htmlFor="nome">
+                Telefone:
+              </label>
+              <div className={classes.containerInput}>
+                <input
+                  placeholder="Telefone"
+                  type="tel"
+                  value={telefone}
+                  onChange={(event) => setTelefone(phone(event.target.value))}
+                />
+              </div>
             </div>
-
-            <div>
-              <input
-                placeholder="Site da empresa"
-                type="text"
-                required
-                value={siteEmpresa}
-                onChange={(event) => setSiteEmpresa(event.target.value)}
-              />
+            <div className={classes.formContainer}>
+              <label className={classes.titulo} htmlFor="nome">
+                Site da empresa:
+              </label>
+              <div className={classes.containerInput}>
+                <input
+                  placeholder="Site da empresa"
+                  type="text"
+                  value={siteEmpresa}
+                  onChange={(event) => setSiteEmpresa(event.target.value)}
+                />
+              </div>
             </div>
-            <div>
-              <input
-                placeholder="Perfil Instagram"
-                type="text"
-                required
-                value={perfilInstagram}
-                onChange={(event) => setPerfilInstagram(event.target.value)}
-              />
-            </div>
-            <div>
-              <button>Salvar</button>
-            </div>
-            <div>
-              <button onClick={cancelarEditarPerfil}>Cancelar</button>
+            <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
+              <div>
+                <button
+                  onClick={editarPerfilHandler}
+                  className={`${classes.button} ${
+                    isEnableSignUp() ? classes.buttonEnabled : classes.buttonDisabled
+                  }`}
+                  disabled={isEnableSignUp() ? false : true}
+                >
+                  Salvar
+                </button>
+              </div>
+              <div>
+                <button
+                  className={`${classes.button} ${classes.buttonEnabled}`}
+                  onClick={cancelarEditarPerfil}
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
           </form>
         </div>
       ) : (
-        <div>
-          <div>{nome}</div>
-          <div>{descricaoProduto}</div>
-          <div>{telefone}</div>
-          <div>{siteEmpresa}</div>
-          <div>{perfilInstagram}</div>
+        <div className={classes.container}>
+          <div className={classes.containerInfo}>
+            {' '}
+            <p className={classes.titulo}>Nome:</p>
+            <p>{nome}</p>
+          </div>
+          <div className={classes.containerInfo}>
+            {' '}
+            <p className={classes.titulo}>Descrição do Produto:</p>
+            <p>{descricaoProduto}</p>
+          </div>
+          <div className={classes.containerInfo}>
+            {' '}
+            <p className={classes.titulo}>Telefone:</p>
+            <p>{telefone}</p>
+          </div>
+          <div className={classes.containerInfo}>
+            {' '}
+            <p className={classes.titulo}>Site da Empresa:</p>
+            <p>{siteEmpresa}</p>
+          </div>
+          <div className={classes.containerInfo}>
+            {' '}
+            <p className={classes.titulo}>Perfil no Instagram:</p>
+            <p>{perfilInstagram}</p>
+          </div>
           <button
             type="button"
             onClick={() => {

@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 65px;
+  background-color: white;
+  border-bottom: 1px solid black;
+}
+
+.logo {
+  font-size: 82px;
+}
+
+.tipoUsuario {
+  text-transform: uppercase;
+}
+
+.usuario {
+  text-transform: uppercase;
+  border-right: 1px solid black;
+  padding-right: 10px;
+  color: #ff6c44;
+}
+
+.logoutButton {
+  color: #ff6c44;
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+  }
+}

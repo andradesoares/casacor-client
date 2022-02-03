@@ -2,12 +2,16 @@ import { useRouter } from 'next/router';
 import { dynamicSort } from '../../services/helpers';
 import api from '../../services/api';
 
+import classes from './fornecedores.module.scss';
+import { useState } from 'react';
+
 function Profissionais({
   profissionaisAdicionados,
   profissionaisNaoAdicionados,
   setStateProfissionaisAdicionados,
   setStateProfissionaisNaoAdicionados,
 }) {
+  const [display, setDisplay] = useState('adicionados');
   const router = useRouter();
   const { userId } = router.query;
 
@@ -74,9 +78,26 @@ function Profissionais({
 
   return (
     <>
-      <div>
-        Não Adicionados
-        {profissionaisNaoAdicionados && (
+      <div className={classes.container}>
+        <div style={{ display: 'flex' }}>
+          <p
+            className={`${classes.profissional} ${
+              display == 'adicionados' ? classes.selected : classes.unselected
+            }`}
+            onClick={() => setDisplay('adicionados')}
+          >
+            Adicionados
+          </p>
+          <p
+            className={`${classes.profissional} ${
+              display == 'naoAdicionados' ? classes.selected : classes.unselected
+            }`}
+            onClick={() => setDisplay('naoAdicionados')}
+          >
+            Não Adicionados
+          </p>
+        </div>
+        {display == 'naoAdicionados' && (
           <ul>
             {profissionaisNaoAdicionados.sort(dynamicSort('nome')).map((profissional) => (
               <li key={profissional.profissional_userId}>
@@ -92,14 +113,13 @@ function Profissionais({
             ))}
           </ul>
         )}
-        Adicionados
-        {profissionaisAdicionados && (
+        {display == 'adicionados' && (
           <ul>
             {profissionaisAdicionados.sort(dynamicSort('nome')).map((profissional) => (
               <li key={profissional.profissional_userId}>
-                {profissional.nome} -
+                {profissional.nome}
                 {profissional.Fornecedors[0].FornecedorProfissional.status == 'confirmado' ? (
-                  ' Confirmado'
+                  '- Confirmado'
                 ) : profissional.Fornecedors[0].FornecedorProfissional.status == 'pendente' &&
                   profissional.Fornecedors[0].FornecedorProfissional.iniciadoPor == 'fornecedor' ? (
                   <button

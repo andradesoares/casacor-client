@@ -2,12 +2,16 @@ import { useRouter } from 'next/router';
 import { dynamicSort } from '../../services/helpers';
 import api from '../../services/api';
 
+import classes from './fornecedores.module.scss';
+import { useState } from 'react';
+
 function Fornecedores({
   fornecedoresAdicionados,
   fornecedoresNaoAdicionados,
   setStateFornecedoresAdicionados,
   setStateFornecedoresNaoAdicionados,
 }) {
+  const [display, setDisplay] = useState('adicionados');
   const router = useRouter();
   const { userId } = router.query;
 
@@ -66,13 +70,30 @@ function Fornecedores({
 
   return (
     <>
-      <div>
-        Não Adicionados
-        {fornecedoresNaoAdicionados && (
+      <div className={classes.container}>
+        <div style={{ display: 'flex' }}>
+          <p
+            className={`${classes.fornecedor} ${
+              display == 'adicionados' ? classes.selected : classes.unselected
+            }`}
+            onClick={() => setDisplay('adicionados')}
+          >
+            Adicionados
+          </p>
+          <p
+            className={`${classes.fornecedor} ${
+              display == 'naoAdicionados' ? classes.selected : classes.unselected
+            }`}
+            onClick={() => setDisplay('naoAdicionados')}
+          >
+            Não Adicionados
+          </p>
+        </div>
+        {display == 'naoAdicionados' && (
           <ul>
             {fornecedoresNaoAdicionados.sort(dynamicSort('nome')).map((fornecedor) => (
               <li key={fornecedor.fornecedor_userId}>
-                {fornecedor.nome}
+                <p>{fornecedor.nome}</p>
                 <button
                   onClick={() => {
                     comecarConexao(userId, fornecedor.fornecedor_userId);
@@ -84,14 +105,13 @@ function Fornecedores({
             ))}
           </ul>
         )}
-        Adicionados
-        {fornecedoresAdicionados && (
+        {display == 'adicionados' && (
           <ul>
             {fornecedoresAdicionados.sort(dynamicSort('nome')).map((fornecedor) => (
               <li key={fornecedor.fornecedor_userId}>
-                {fornecedor.nome} -
+                <p>{fornecedor.nome}</p>
                 {fornecedor.Profissionals[0].FornecedorProfissional.status == 'confirmado' ? (
-                  ' Confirmado'
+                  '- Confirmado'
                 ) : fornecedor.Profissionals[0].FornecedorProfissional.status == 'pendente' &&
                   fornecedor.Profissionals[0].FornecedorProfissional.iniciadoPor ==
                     'profissional' ? (

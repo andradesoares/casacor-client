@@ -4,11 +4,15 @@ import api from '../../services/api';
 import Infos from '../../components/fornecedores/infos';
 import Profissionais from '../../components/fornecedores/profissionais';
 import Arquivos from '../../components/fornecedores/arquivos';
-import { signOut, TryLocalSignin } from '../../services/auth';
+import PaginaPrincipal from '../../components/fornecedores/home';
+import NavBar from '../../components/layout/navbar';
+import MenuLateral from '../../components/layout/menuLateral';
+import ItemMenuLateral from '../../components/layout/itemMenuLateral';
+
+import classes from './user.module.scss';
 
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
-
   const [usuario, setUsuario] = useState([]);
   const [profissionaisAdicionados, setProfissionaisAdicionados] = useState([]);
   const [profissionaisNaoAdicionados, setProfissionaisNaoAdicionados] = useState([]);
@@ -29,8 +33,12 @@ function Home() {
       if (!token || !userIdLocal || !tipoLocal) {
         router.push(`/`);
       }
-      setIsLoading(false);
     }
+
+    let timer1 = setTimeout(() => setIsLoading(false), 500);
+    return () => {
+      clearTimeout(timer1);
+    };
   }, [router.query]);
 
   const usuarioLogado = async (term) => {
@@ -56,55 +64,56 @@ function Home() {
   } else {
     return (
       <>
+        <NavBar usuario={usuario} tipo={localStorage.getItem('tipo')} />
+        <MenuLateral>
+          <ItemMenuLateral
+            setDisplay={setDisplay}
+            style={{
+              borderBottom: '1px solid black',
+            }}
+            item="home"
+          />{' '}
+          <ItemMenuLateral
+            setDisplay={setDisplay}
+            style={{
+              borderBottom: '1px solid black',
+            }}
+            item="infos"
+          />{' '}
+          <ItemMenuLateral
+            setDisplay={setDisplay}
+            style={{
+              borderBottom: '1px solid black',
+            }}
+            item="profissionais"
+          />{' '}
+          <ItemMenuLateral setDisplay={setDisplay} item="arquivos" />
+        </MenuLateral>
         <div>
-          <div>
-            <button
-              type="button"
-              onClick={() => {
-                setDisplay('home');
-              }}
-            >
-              Home
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setDisplay('profissionais');
-              }}
-            >
-              Profissionais
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                signOut(router.push);
-              }}
-            >
-              Logout
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setDisplay('arquivos');
-              }}
-            >
-              Arquivos
-            </button>
-          </div>
-          {display == 'home' && usuario.nome !== undefined ? (
-            <Infos usuario={usuario} setUsuario={setUsuario} />
+          {display == 'home' ? (
+            <div className={classes.container}>
+              <PaginaPrincipal />
+            </div>
           ) : null}
-
+          {display == 'infos' && usuario.nome !== undefined ? (
+            <div className={classes.container}>
+              <Infos usuario={usuario} setUsuario={setUsuario} />
+            </div>
+          ) : null}
           {display == 'profissionais' ? (
-            <Profissionais
-              setStateProfissionaisAdicionados={setProfissionaisAdicionados}
-              setStateProfissionaisNaoAdicionados={setProfissionaisNaoAdicionados}
-              profissionaisAdicionados={profissionaisAdicionados}
-              profissionaisNaoAdicionados={profissionaisNaoAdicionados}
-            />
+            <div className={classes.container}>
+              <Profissionais
+                setStateProfissionaisAdicionados={setProfissionaisAdicionados}
+                setStateProfissionaisNaoAdicionados={setProfissionaisNaoAdicionados}
+                profissionaisAdicionados={profissionaisAdicionados}
+                profissionaisNaoAdicionados={profissionaisNaoAdicionados}
+              />
+            </div>
           ) : null}
           {display == 'arquivos' ? (
-            <Arquivos userId={userId} nome={usuario.nome} logo={logo} setLogo={setLogo} />
+            <div className={classes.container}>
+              <Arquivos userId={userId} nome={usuario.nome} logo={logo} setLogo={setLogo} />
+            </div>
           ) : null}
         </div>
       </>

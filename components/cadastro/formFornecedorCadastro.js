@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { signUp } from '../../services/auth';
 
-function FormFornecedorCadastro() {
+import classes from './formFornecedorCadastro.module.scss';
+import { phone } from '../../services/helpers';
+
+function FormFornecedorCadastro({ setUsuario, usuario }) {
   const [nome, setNome] = useState('');
   const [descricaoProduto, setDescricaoProduto] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -10,6 +13,7 @@ function FormFornecedorCadastro() {
   const [perfilInstagram, setPerfilInstagram] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -24,87 +28,140 @@ function FormFornecedorCadastro() {
         perfilInstagram,
         password,
       },
-      setError
+      setError,
+      setMessage
+    );
+  };
+
+  const isEnableSignUp = () => {
+    return (
+      email != '' &&
+      password != '' &&
+      nome != '' &&
+      descricaoProduto != '' &&
+      telefone != '' &&
+      siteEmpresa != '' &&
+      perfilInstagram != ''
     );
   };
 
   return (
-    <section>
-      <h1>Cadastro Fornecedor</h1>
+    <div className={classes.container}>
+      <h1 className={classes.h1}>Cadastrar</h1>
+      <div className={classes.buttonContainer}>
+        <p
+          className={`${classes.button} ${
+            usuario == 'profissional' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => setUsuario('profissional')}
+        >
+          Profissional
+        </p>
+        <p
+          className={`${classes.button} ${
+            usuario == 'fornecedor' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => setUsuario('fornecedor')}
+        >
+          Fornecedor
+        </p>
+      </div>
       <form onSubmit={submitHandler}>
-        <div>
+        <label htmlFor="nome">Nome</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Nome"
+            name="nome"
             type="text"
             id="nome"
-            required
             value={nome}
             onChange={(event) => setNome(event.target.value)}
           />
         </div>
-        <div>
+        <label htmlFor="descricaoProduto">Descrição do produto</label>
+        <div className={classes.containerInput}>
           <input
+            nome="descricaoProduto"
             placeholder="Descrição do produto"
             type="text"
             id="descricaoProduto"
-            required
             value={descricaoProduto}
             onChange={(event) => setDescricaoProduto(event.target.value)}
           />
         </div>
-        <div>
-          <input
-            placeholder="Telefone"
-            type="tel"
-            required
-            value={telefone}
-            onChange={(event) => setTelefone(event.target.value)}
-          />
+        <div style={{ display: 'flex', padding: 0, justifyContent: 'space-between' }}>
+          <div style={{ padding: 0 }}>
+            <label htmlFor="telefone">Telefone</label>
+            <div className={classes.containerInput}>
+              <input
+                placeholder="Telefone"
+                nome="telefone"
+                type="text"
+                value={telefone}
+                onChange={(event) => setTelefone(phone(event.target.value))}
+              />
+            </div>
+          </div>
+          <div style={{ padding: 0 }}>
+            <label htmlFor="email">E-mail</label>
+            <div className={classes.containerInput}>
+              <input
+                placeholder="Email"
+                type="email"
+                nome="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </div>
+          </div>
         </div>
-        <div>
-          <input
-            placeholder="Email"
-            type="email"
-            id="email"
-            required
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>
-        <div>
+
+        <label htmlFor="siteDaEmpresa">Site da empresa</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Site da empresa"
             type="text"
-            required
+            nome="siteDaEmpresa"
             value={siteEmpresa}
             onChange={(event) => setSiteEmpresa(event.target.value)}
           />
         </div>
-        <div>
+        <label htmlFor="perfilInstagram">Perfil Instagram</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Perfil Instagram"
             type="text"
-            required
+            nome="perfilInstagram"
             value={perfilInstagram}
             onChange={(event) => setPerfilInstagram(event.target.value)}
           />
         </div>
-        <div>
+        <label htmlFor="password">Senha</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Password"
             type="password"
-            id="password"
-            required
+            nome="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <div>
-          <button>Criar Conta</button>
+        <div style={{ justifyContent: 'flex-end' }} className={classes.buttonContainer}>
+          <button
+            className={`${classes.loginButton} ${
+              isEnableSignUp() ? classes.loginButtonEnabled : classes.loginButtonDisabled
+            }`}
+            disabled={isEnableSignUp() ? false : true}
+          >
+            Cadastrar
+          </button>
         </div>
       </form>
-      <div>{error}</div>
-    </section>
+      <div>
+        {error}
+        {message}
+      </div>
+    </div>
   );
 }
 

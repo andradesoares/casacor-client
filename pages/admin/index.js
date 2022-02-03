@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import FormLogin from '../../components/login/formLoginAdmin';
 import { TryLocalSignin } from '../../services/auth';
 
+import classes from './index.module.scss';
+
 function AuthPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +25,8 @@ function AuthPage() {
   } else {
     return (
       <>
-        <div>
-          <div>
-            <div type="button">Fazer Login</div>
-          </div>
+        <div className={classes.container}>
+          <h1>Casa Cor</h1>
         </div>
         <FormLogin route="/admin/recuperar-senha" usuario={path} />
       </>

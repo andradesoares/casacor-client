@@ -10,9 +10,10 @@ const TryLocalSignin = async (route) => {
   }
 };
 
-const signUp = async (body, setError) => {
+const signUp = async (body, setError, setMessage) => {
   try {
     await api.post(`/user/${body.tipo}/signup`, body);
+    setMessage(response.data.message);
     setError('');
   } catch (error) {
     setError(error.response.data.error);
@@ -33,9 +34,10 @@ const signIn = async (email, password, tipo, route, setError) => {
   }
 };
 
-const requisitarNovaSenha = async (email, tipo, setError) => {
+const requisitarNovaSenha = async (email, tipo, setError, setMessage) => {
   try {
     const response = await api.post('/user/requestPasswordReset', { email, tipo });
+    setMessage(response.data.message);
   } catch (error) {
     setError(error.response.data.error);
   }

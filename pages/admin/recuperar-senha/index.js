@@ -26,7 +26,6 @@ function RecuperSenha() {
       <>
         <section>
           <div>
-            <Link href={`/admin`}>Login</Link>
             <FormEsqueciSenha usuario={'admin'} />
           </div>
         </section>

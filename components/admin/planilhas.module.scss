@@ -1,0 +1,46 @@
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  .selected {
+    color: #ff6c44;
+    font-weight: 600;
+  }
+  .unselected {
+    color: rgba(227, 120, 75, 0.4);
+  }
+
+  .button {
+    text-transform: uppercase;
+    padding: 0 40px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.downloadButton {
+  border: none;
+  padding: 10px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 600;
+  background-color: #ff6c44;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: white;
+
+  td,
+  th,
+  tr {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+  }
+}

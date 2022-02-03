@@ -5,6 +5,8 @@ import { dynamicSort } from '../../services/helpers';
 import Usuario from './usuario';
 import api from '../../services/api';
 
+import classes from './usuarios.module.scss';
+
 const Usuarios = ({
   usuarioTipo,
   adminId,
@@ -13,6 +15,7 @@ const Usuarios = ({
   setFornecedores,
   setProfissionais,
 }) => {
+  const [tipo, setTipo] = useState('profissional');
   const [display, setDisplay] = useState('todos');
   const [usuario, setUsuario] = useState([]);
 
@@ -47,23 +50,24 @@ const Usuarios = ({
     return (
       <>
         <button
-          style={{ minWidth: '120px' }}
+          className={classes.selectButton}
           onClick={() => {
             updateStatus(tipoUsuario, usuario.status, userId);
           }}
         >
-          {usuario.status == 'confirmado' ? 'Bloquear Usuario' : null}
-          {usuario.status == 'pendente' ? 'Aceitar Usuario' : null}
-          {usuario.status == 'recusado' ? 'Aceitar Usuario' : null}
-          {usuario.status == 'bloqueado' ? 'Desbloquear Usuario' : null}
+          {usuario.status == 'confirmado' ? 'Bloquear' : null}
+          {usuario.status == 'pendente' ? 'Aceitar' : null}
+          {usuario.status == 'recusado' ? 'Aceitar' : null}
+          {usuario.status == 'bloqueado' ? 'Desbloquear' : null}
         </button>
         {usuario.status == 'pendente' ? (
           <button
+            className={classes.selectButton}
             onClick={() => {
               updateStatus(usuario, 'recusar', usuario.profissional_userId);
             }}
           >
-            {usuario.status == 'pendente' ? 'Recusar Usuario' : null}
+            {usuario.status == 'pendente' ? 'Recusar' : null}
           </button>
         ) : null}
       </>
@@ -72,58 +76,93 @@ const Usuarios = ({
 
   return (
     <>
-      <h3>Usuarios</h3>
-      <div>
-        <button
-          type="button"
+      <div className={classes.buttonContainer}>
+        <p
+          className={`${classes.button} ${
+            tipo == 'profissional' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => {
+            setTipo('profissional'), setDisplay('todos');
+          }}
+        >
+          Profissional
+        </p>
+        <p
+          className={`${classes.button} ${
+            tipo == 'fornecedor' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => {
+            setTipo('fornecedor'), setDisplay('todos');
+          }}
+        >
+          Fornecedor
+        </p>
+      </div>
+      <div className={classes.buttonContainer}>
+        <p
+          className={`${classes.button} ${
+            display == 'todos' ? classes.selected : classes.unselected
+          }`}
+          style={{ textTransform: 'lowercase' }}
           onClick={() => {
             setDisplay('todos');
           }}
         >
           Todos
-        </button>
-        <button
-          type="button"
+        </p>
+        <p
+          className={`${classes.button} ${
+            display == 'confirmado' ? classes.selected : classes.unselected
+          }`}
+          style={{ textTransform: 'lowercase' }}
           onClick={() => {
             setDisplay('confirmado');
           }}
         >
           Confirmados
-        </button>
-        <button
-          type="button"
+        </p>
+        <p
+          className={`${classes.button} ${
+            display == 'pendente' ? classes.selected : classes.unselected
+          }`}
+          style={{ textTransform: 'lowercase' }}
           onClick={() => {
             setDisplay('pendente');
           }}
         >
           Pendentes
-        </button>
-        <button
-          type="button"
+        </p>
+        <p
+          className={`${classes.button} ${
+            display == 'recusado' ? classes.selected : classes.unselected
+          }`}
+          style={{ textTransform: 'lowercase' }}
           onClick={() => {
             setDisplay('recusado');
           }}
         >
           Recusados
-        </button>
-        <button
-          type="button"
+        </p>
+        <p
+          className={`${classes.button} ${
+            display == 'bloqueado' ? classes.selected : classes.unselected
+          }`}
+          style={{ textTransform: 'lowercase' }}
           onClick={() => {
             setDisplay('bloqueado');
           }}
         >
           Bloqueados
-        </button>
+        </p>
       </div>
-      <div style={{ display: 'flex' }}>
-        <div style={{ width: '50%', marginRight: '30px' }}>
+      {tipo == 'profissional' && (
+        <div>
           {profissionais.sort(dynamicSort('nome')).map((profissional) =>
             (display == profissional.status || display == 'todos') && display != 'usuario' ? (
               <>
-                <h4>Profissionais</h4>
-
                 <div style={{ display: 'flex' }}>
                   <p
+                    className={classes.nomeSelect}
                     onClick={() => {
                       setDisplay('usuario');
                       setUsuario(profissional);
@@ -131,9 +170,6 @@ const Usuarios = ({
                     style={{ marginRight: '30px' }}
                   >
                     {profissional.nome}
-                  </p>
-                  <p style={{ minWidth: '100px', textTransform: 'capitalize' }}>
-                    {profissional.status}
                   </p>
                   {usuarioTipo == 'pleno'
                     ? Buttons('profissional', profissional, profissional.profissional_userId)
@@ -143,14 +179,15 @@ const Usuarios = ({
             ) : null
           )}
         </div>
-        <div style={{ flexGrow: '1' }}>
+      )}
+      {tipo == 'fornecedor' && (
+        <div>
           {fornecedores.sort(dynamicSort('nome')).map((fornecedor) =>
             (display == fornecedor.status || display == 'todos') && display !== 'usuario' ? (
               <>
-                <h4>Fornecedores</h4>
-
                 <div style={{ display: 'flex' }}>
                   <p
+                    className={classes.nomeSelect}
                     onClick={() => {
                       setDisplay('usuario');
                       setUsuario(fornecedor);
@@ -159,9 +196,6 @@ const Usuarios = ({
                   >
                     {fornecedor.nome}
                   </p>
-                  <p style={{ minWidth: '100px', textTransform: 'capitalize' }}>
-                    {fornecedor.status}
-                  </p>
                   {usuarioTipo == 'pleno'
                     ? Buttons('fornecedor', fornecedor, fornecedor.fornecedor_userId)
                     : null}
@@ -169,9 +203,9 @@ const Usuarios = ({
               </>
             ) : null
           )}
-          {display == 'usuario' ? <Usuario usuario={usuario} /> : null}
         </div>
-      </div>
+      )}
+      {display == 'usuario' ? <Usuario usuario={usuario} /> : null}
     </>
   );
 };

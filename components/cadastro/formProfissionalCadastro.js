@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { signUp } from '../../services/auth';
 
-function FormProfissionalCadastro() {
+import classes from './formProfissionalCadastro.module.scss';
+import { cpfMask, date } from '../../services/helpers';
+
+function FormProfissionalCadastro({ setUsuario, usuario }) {
   const [nome, setNome] = useState('');
   const [nomeEscritorio, setNomeEscritorio] = useState('');
   const [dataDeNascimento, setDataDeNascimento] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
   const [endereco, setEndereco] = useState('');
-  const [nomeResponsavelObra, setNomeResponsavelObra] = useState('');
-  const [telefoneResponsavelObra, setTelefoneResponsavelObra] = useState('');
-  const [emailResponsavelObra, setEmailResponsavelObra] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -25,118 +26,146 @@ function FormProfissionalCadastro() {
         cpf,
         email,
         endereco,
-        nomeResponsavelObra,
-        telefoneResponsavelObra,
-        emailResponsavelObra,
         password,
       },
-      setError
+      setError,
+      setMessage
+    );
+  };
+
+  const isEnableSignUp = () => {
+    return (
+      email != '' &&
+      password != '' &&
+      nome != '' &&
+      nomeEscritorio != '' &&
+      dataDeNascimento != '' &&
+      cpf != '' &&
+      endereco != ''
     );
   };
 
   return (
-    <section>
-      <h1>Cadastro Profissional</h1>
+    <div className={classes.container}>
+      <h1 className={classes.h1}>Cadastrar</h1>
+      <div className={classes.buttonContainer}>
+        <p
+          className={`${classes.button} ${
+            usuario == 'profissional' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => setUsuario('profissional')}
+        >
+          Profissional
+        </p>
+        <p
+          className={`${classes.button} ${
+            usuario == 'fornecedor' ? classes.selected : classes.unselected
+          }`}
+          onClick={() => setUsuario('fornecedor')}
+        >
+          Fornecedor
+        </p>
+      </div>
       <form onSubmit={submitHandler}>
-        <div>
+        <label htmlFor="nome">Nome</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Nome"
             type="text"
-            required
+            name="nome"
             value={nome}
             onChange={(event) => setNome(event.target.value)}
           />
         </div>
-        <div>
+
+        <label htmlFor="nomeEscritorio">Nome do Escritorio</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Nome do Escritorio"
             type="text"
-            required
+            name="nomeEscritorio"
             value={nomeEscritorio}
             onChange={(event) => setNomeEscritorio(event.target.value)}
           />
         </div>
-        <div>
-          <input
-            placeholder="Data de Nascimento"
-            type="date"
-            required
-            value={dataDeNascimento}
-            onChange={(event) => setDataDeNascimento(event.target.value)}
-          />
+        <div style={{ display: 'flex', padding: 0, justifyContent: 'space-between' }}>
+          <div style={{ padding: 0 }}>
+            <label htmlFor="dataDeNascimento">Data de Nascimento</label>
+            <div className={classes.containerInput}>
+              <input
+                placeholder="Data de Nascimento"
+                name="dataDeNascimento"
+                onChange={(event) => {
+                  setDataDeNascimento(date(event.target.value));
+                }}
+                value={dataDeNascimento}
+              />
+            </div>
+          </div>
+          <div style={{ padding: 0 }}>
+            <label htmlFor="cpf">CPF</label>
+            <div className={classes.containerInput}>
+              <input
+                placeholder="CPF"
+                type="text"
+                name="cpf"
+                value={cpf}
+                onChange={(event) => setCpf(cpfMask(event.target.value))}
+              />
+            </div>
+          </div>
         </div>
-        <div>
-          <input
-            placeholder="CPF"
-            type="text"
-            required
-            value={cpf}
-            onChange={(event) => setCpf(event.target.value)}
-          />
-        </div>
-        <div>
+
+        <label htmlFor="email">Email</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Email"
             type="email"
             id="email"
-            required
+            name="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
-        <div>
+
+        <label htmlFor="endereco">Endereço</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Endereço"
             type="string"
-            required
+            name="endereco"
             value={endereco}
             onChange={(event) => setEndereco(event.target.value)}
           />
         </div>
-        <div>
-          <input
-            placeholder="Nome do Responsavel pela Obra"
-            type="text"
-            required
-            value={nomeResponsavelObra}
-            onChange={(event) => setNomeResponsavelObra(event.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            placeholder="Telefone do Responsavel pela Obra"
-            type="tel"
-            required
-            value={telefoneResponsavelObra}
-            onChange={(event) => setTelefoneResponsavelObra(event.target.value)}
-          />
-        </div>
 
-        <div>
-          <input
-            placeholder="Email do Responsavel pela Obra"
-            type="email"
-            required
-            value={emailResponsavelObra}
-            onChange={(event) => setEmailResponsavelObra(event.target.value)}
-          />
-        </div>
-        <div>
+        <label htmlFor="password">Senha</label>
+        <div className={classes.containerInput}>
           <input
             placeholder="Password"
             type="password"
             id="password"
-            required
+            name="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <div>
-          <button>Criar Conta</button>
+        <div style={{ justifyContent: 'flex-end' }} className={classes.buttonContainer}>
+          <button
+            className={`${classes.loginButton} ${
+              isEnableSignUp() ? classes.loginButtonEnabled : classes.loginButtonDisabled
+            }`}
+            disabled={isEnableSignUp() ? false : true}
+          >
+            Cadastrar
+          </button>
         </div>
       </form>
-      <div>{error}</div>
-    </section>
+      <div>
+        {error}
+        {message}
+      </div>
+    </div>
   );
 }
 
