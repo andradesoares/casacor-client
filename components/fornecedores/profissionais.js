@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { dynamicSort } from '../../services/helpers';
 import api from '../../services/api';
 
-import classes from './fornecedores.module.scss';
+import classes from './profissionais.module.scss';
 import { useState } from 'react';
 
 function Profissionais({
