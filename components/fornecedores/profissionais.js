@@ -101,7 +101,7 @@ function Profissionais({
           <ul>
             {profissionaisNaoAdicionados.sort(dynamicSort('nome')).map((profissional) => (
               <li key={profissional.profissional_userId}>
-                {profissional.nome}
+                <p className={classes.profissionalNome}>{profissional.nome}</p>
                 <button
                   onClick={() => {
                     comecarConexao(profissional.profissional_userId, userId);
@@ -117,7 +117,7 @@ function Profissionais({
           <ul>
             {profissionaisAdicionados.sort(dynamicSort('nome')).map((profissional) => (
               <li key={profissional.profissional_userId}>
-                {profissional.nome}
+                <p className={classes.profissionalNome}>{profissional.nome}</p>
                 {profissional.Fornecedors[0].FornecedorProfissional.status == 'confirmado' ? (
                   '- Confirmado'
                 ) : profissional.Fornecedors[0].FornecedorProfissional.status == 'pendente' &&

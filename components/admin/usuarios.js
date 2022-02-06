@@ -64,7 +64,7 @@ const Usuarios = ({
           <button
             className={classes.selectButton}
             onClick={() => {
-              updateStatus(usuario, 'recusar', usuario.profissional_userId);
+              updateStatus(tipoUsuario, 'recusar', userId);
             }}
           >
             {usuario.status == 'pendente' ? 'Recusar' : null}

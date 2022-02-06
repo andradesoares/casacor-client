@@ -6,9 +6,10 @@ import Fornecedores from '../../components/profissionais/fornecedores';
 import Arquivos from '../../components/profissionais/arquivos';
 import Ambiente from '../../components/profissionais/ambiente';
 import PaginaPrincipal from '../../components/profissionais/home';
-import NavBar from '../../components/layout/navbar';
+import NavBar from '../../components/profissionais/navbar';
 import MenuLateral from '../../components/layout/menuLateral';
 import ItemMenuLateral from '../../components/layout/itemMenuLateral';
+import Mensagem from '../../components/profissionais/mensagem';
 
 import classes from './user.module.scss';
 
@@ -20,6 +21,7 @@ function Home() {
   const [display, setDisplay] = useState('home');
   const [ambiente, setAmbiente] = useState('');
   const [logo, setLogo] = useState('');
+  const [mensagens, setMensagens] = useState([]);
 
   const router = useRouter();
   const { userId } = router.query;
@@ -51,6 +53,7 @@ function Home() {
     setUsuario(response.data.usuario);
     setAmbiente(response.data.usuario.Ambiente);
     setLogo(response.data.usuario.logo);
+    setMensagens(response.data.mensagens);
   };
 
   const getProfissionais = async (userId) => {
@@ -68,7 +71,16 @@ function Home() {
   } else {
     return (
       <>
-        <NavBar usuario={usuario} tipo={localStorage.getItem('tipo')} />
+        {console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID)}
+        <NavBar
+          setStateFornecedoresAdicionados={setFornecedoresAdicionados}
+          setStateFornecedoresNaoAdicionados={setFornecedoresNaoAdicionados}
+          fornecedoresAdicionados={fornecedoresAdicionados}
+          fornecedoresNaoAdicionados={fornecedoresNaoAdicionados}
+          usuario={usuario}
+          userId={userId}
+          tipo={localStorage.getItem('tipo')}
+        />
         <MenuLateral>
           <ItemMenuLateral
             setDisplay={setDisplay}
@@ -98,7 +110,14 @@ function Home() {
             }}
             item="ambiente"
           />{' '}
-          <ItemMenuLateral setDisplay={setDisplay} item="arquivos" />
+          <ItemMenuLateral
+            setDisplay={setDisplay}
+            item="arquivos"
+            style={{
+              borderBottom: '1px solid black',
+            }}
+          />
+          <ItemMenuLateral setDisplay={setDisplay} item="mensagens" />{' '}
         </MenuLateral>
         <div>
           {display == 'home' ? (
@@ -129,6 +148,11 @@ function Home() {
           {display == 'arquivos' ? (
             <div className={classes.container}>
               <Arquivos userId={userId} nome={usuario.nome} logo={logo} setLogo={setLogo} />
+            </div>
+          ) : null}
+          {display == 'mensagens' ? (
+            <div className={classes.container}>
+              <Mensagem mensagens={mensagens} />
             </div>
           ) : null}
         </div>

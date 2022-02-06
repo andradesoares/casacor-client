@@ -1,0 +1,16 @@
+.button {
+  border: none;
+  padding: 10px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 600;
+}
+.buttonEnabled {
+  background-color: #ff6c44;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.buttonDisabled {
+  background-color: rgba(227, 120, 75, 0.4);
+}

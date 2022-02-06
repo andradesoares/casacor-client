@@ -26,7 +26,7 @@ function AuthPage() {
     return (
       <>
         <div className={classes.container}>
-          <h1>Casa Cor</h1>
+          <h1>LOGO</h1>
         </div>
         <FormLogin route="/admin/recuperar-senha" usuario={path} />
       </>

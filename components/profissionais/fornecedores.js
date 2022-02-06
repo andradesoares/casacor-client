@@ -49,7 +49,7 @@ function Fornecedores({
       setStateFornecedoresAdicionados(
         fornecedoresAdicionados.filter(
           (fornecedor) =>
-            fornecedor.fornecedor_userId !== response.data.fornecedor.fornecedor_userId
+            fornecedor.fornecedor_userId !== response.data.fornecedor?.fornecedor_userId
         )
       );
     }
@@ -93,7 +93,7 @@ function Fornecedores({
           <ul>
             {fornecedoresNaoAdicionados.sort(dynamicSort('nome')).map((fornecedor) => (
               <li key={fornecedor.fornecedor_userId}>
-                <p>{fornecedor.nome}</p>
+                <p className={classes.fornecedorNome}>{fornecedor.nome}</p>
                 <button
                   onClick={() => {
                     comecarConexao(userId, fornecedor.fornecedor_userId);
@@ -109,7 +109,7 @@ function Fornecedores({
           <ul>
             {fornecedoresAdicionados.sort(dynamicSort('nome')).map((fornecedor) => (
               <li key={fornecedor.fornecedor_userId}>
-                <p>{fornecedor.nome}</p>
+                <p className={classes.fornecedorNome}>{fornecedor.nome}</p>
                 {fornecedor.Profissionals[0].FornecedorProfissional.status == 'confirmado' ? (
                   '- Confirmado'
                 ) : fornecedor.Profissionals[0].FornecedorProfissional.status == 'pendente' &&

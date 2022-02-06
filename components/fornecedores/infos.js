@@ -66,21 +66,21 @@ function Infos({ usuario, setUsuario }) {
               </div>
             </div>
             <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nome">
-                Descrição do produto:
+              <label className={classes.titulo} htmlFor="descricaoProduto">
+                Descrição do Produto:
               </label>
               <div className={classes.containerInput}>
                 <input
                   placeholder="Descrição do produto"
                   type="text"
-                  id="descricaoProduto"
+                  name="descricaoProduto"
                   value={descricaoProduto}
                   onChange={(event) => setDescricaoProduto(event.target.value)}
                 />
               </div>
             </div>
             <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nome">
+              <label className={classes.titulo} htmlFor="telefone">
                 Telefone:
               </label>
               <div className={classes.containerInput}>
@@ -88,20 +88,36 @@ function Infos({ usuario, setUsuario }) {
                   placeholder="Telefone"
                   type="tel"
                   value={telefone}
+                  name="telefone"
                   onChange={(event) => setTelefone(phone(event.target.value))}
                 />
               </div>
             </div>
             <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nome">
-                Site da empresa:
+              <label className={classes.titulo} htmlFor="site">
+                Site da Empresa:
               </label>
               <div className={classes.containerInput}>
                 <input
                   placeholder="Site da empresa"
                   type="text"
+                  name="site"
                   value={siteEmpresa}
                   onChange={(event) => setSiteEmpresa(event.target.value)}
+                />
+              </div>
+            </div>
+            <div className={classes.formContainer}>
+              <label className={classes.titulo} htmlFor="instagram">
+                Perfil no Instagram:
+              </label>
+              <div className={classes.containerInput}>
+                <input
+                  placeholder="Perfil no Instagram"
+                  type="text"
+                  name="instagram"
+                  value={siteEmpresa}
+                  onChange={(event) => setPerfilInstagram(event.target.value)}
                 />
               </div>
             </div>
@@ -156,6 +172,8 @@ function Infos({ usuario, setUsuario }) {
             <p>{perfilInstagram}</p>
           </div>
           <button
+            style={{ marginTop: '30px' }}
+            className={`${classes.button} ${classes.buttonEnabled}`}
             type="button"
             onClick={() => {
               setEditarPerfil(true);

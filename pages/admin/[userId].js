@@ -8,6 +8,7 @@ import NavBar from '../../components/layout/navbar';
 import MenuLateral from '../../components/layout/menuLateral';
 import ItemMenuLateral from '../../components/layout/itemMenuLateral';
 import PaginaPrincipal from '../../components/admin/home';
+import Mensagem from '../../components/admin/mensagem';
 
 import classes from './user.module.scss';
 
@@ -18,6 +19,7 @@ function Home() {
   const [admins, setAdmins] = useState([]);
   const [fornecedores, setFornecedores] = useState([]);
   const [profissionais, setProfissionais] = useState([]);
+  const [mensagens, setMensagens] = useState([]);
 
   const router = useRouter();
   const { userId } = router.query;
@@ -61,6 +63,7 @@ function Home() {
     const response = await api.post(`/admin/getUsuarios`);
     setFornecedores(response.data.fornecedores);
     setProfissionais(response.data.profissionais);
+    setMensagens(response.data.mensagens);
   };
 
   if (isLoading) {
@@ -93,6 +96,13 @@ function Home() {
               item="administradores"
             />
           ) : null}
+          <ItemMenuLateral
+            setDisplay={setDisplay}
+            style={{
+              borderBottom: '1px solid black',
+            }}
+            item="mensagem"
+          />{' '}
           <ItemMenuLateral setDisplay={setDisplay} item="usuarios" />{' '}
         </MenuLateral>
         <div>
@@ -104,6 +114,16 @@ function Home() {
           {display == 'administradores' && usuario.tipo == 'pleno' ? (
             <div className={classes.container}>
               <Admins adminId={usuario.admin_userId} admins={admins} setAdmins={setAdmins} />
+            </div>
+          ) : null}
+          {display == 'mensagem' && usuario.tipo == 'pleno' ? (
+            <div className={classes.container}>
+              <Mensagem
+                adminId={usuario.admin_userId}
+                mensagens={mensagens}
+                setMensagens={setMensagens}
+                tipo={usuario.tipo}
+              />
             </div>
           ) : null}
 
