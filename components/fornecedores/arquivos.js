@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import classes from './arquivos.module.scss';
 
-const Arquivos = ({ userId, nome, logo, setLogo }) => {
+const Arquivos = ({ userId, nome, logo, setLogo, usuario }) => {
   const filesElement = useRef(null);
   const [fileLength, setFileLength] = useState(0);
   const [logoImage, setLogoImage] = useState();
@@ -15,7 +15,7 @@ const Arquivos = ({ userId, nome, logo, setLogo }) => {
     dataForm.append('nome', nome);
     dataForm.append('logo', logoImage);
 
-    const response = await fetch(`https://casa-cor.herokuapp.com/fornecedor/fileUpload`, {
+    const response = await fetch(`https://casa-cor.herokuapp.com/${usuario}/fileUpload`, {
       method: 'POST',
       body: dataForm,
     });
@@ -33,7 +33,7 @@ const Arquivos = ({ userId, nome, logo, setLogo }) => {
   };
 
   const removerFile = async (logo, userId) => {
-    const response = await api.post(`/fornecedor/fileDelete`, {
+    const response = await api.post(`/${usuario}/fileDelete`, {
       logoId: logo,
       userId: userId,
     });
@@ -55,7 +55,7 @@ const Arquivos = ({ userId, nome, logo, setLogo }) => {
           >
             <img
               style={{ height: '150px', marginBottom: '10px' }}
-              src={`https://casa-cor.herokuapp.com/images/fornecedores/${logo}.jpg`}
+              src={`https://casa-cor.herokuapp.com/images/${usuario}/${logo}.jpg`}
               alt="BigCo Inc. logo"
             />
             <button

@@ -11,49 +11,84 @@ import notification from '../../images/icons/notification.png';
 function NavBar({
   usuario,
   tipo,
-  setStateProfissionaisAdicionados,
-  setStateProfissionaisNaoAdicionados,
-  profissionaisAdicionados,
-  profissionaisNaoAdicionados,
+  setAdicionados,
+  setNaoAdicionados,
+  adicionados,
+  naoAdicionados,
+  tableName,
   userId,
+  usuarioOposto,
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const respostaConexao = async (profissionalId, fornecedorId, resposta) => {
-    const response = await api.post(`/fornecedor/confirmarConexao`, {
-      profissionalId,
-      fornecedorId,
+  const respostaConexao = async (usuarioId, usuarioOpostoId, resposta, usuarioOpostoTipo) => {
+    const response = await api.post(`/${tipo}/confirmarConexao`, {
+      usuarioId,
+      usuarioOpostoId,
       resposta,
     });
 
     if (resposta == 'confirmado') {
-      setStateProfissionaisAdicionados(
-        profissionaisAdicionados.map((profissional) =>
-          profissional.profissional_userId == response.data.profissional.profissional_userId
-            ? response.data.profissional
-            : profissional
+      setAdicionados(
+        adicionados.map((pessoa) =>
+          pessoa[`${usuarioOpostoTipo}_userId`] ==
+          response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
+            ? response.data[`${usuarioOpostoTipo}`]
+            : pessoa
         )
       );
     } else if (resposta == 'recusado') {
-      setStateProfissionaisNaoAdicionados([
-        ...profissionaisNaoAdicionados,
-        response.data.profissional,
-      ]);
-      setStateProfissionaisAdicionados(
-        profissionaisAdicionados.filter(
-          (profissional) =>
-            profissional.profissional_userId !== response.data.profissional.profissional_userId
+      setNaoAdicionados([...naoAdicionados, response.data[`${usuarioOpostoTipo}`]]);
+      setAdicionados(
+        adicionados.filter(
+          (pessoa) =>
+            pessoa[`${usuarioOpostoTipo}_userId`] !==
+            response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
         )
       );
     }
   };
 
-  const notifications = profissionaisAdicionados.filter(
-    (profissional) =>
-      profissional.Fornecedors[0].FornecedorProfissional.status == 'pendente' &&
-      profissional.Fornecedors[0].FornecedorProfissional.iniciadoPor == 'profissional'
-  ).length;
+  const notifications = (array, usuarioOposto) => {
+    return array.filter(
+      (item) =>
+        item[tableName][0].FornecedorProfissional.status == 'pendente' &&
+        item[tableName][0].FornecedorProfissional.iniciadoPor == usuarioOposto
+    ).length;
+  };
+
+  const lista = (array, usuarioOposto) => {
+    return array.sort(dynamicSort('nome')).map((item) =>
+      item[tableName][0].FornecedorProfissional.status == 'pendente' &&
+      item[tableName][0].FornecedorProfissional.iniciadoPor == usuarioOposto ? (
+        <>
+          <li key={item[`${usuarioOposto}_userId`]}>
+            <p>{item.nome}</p>
+            <button
+              onClick={() => {
+                respostaConexao(
+                  userId,
+                  item[`${usuarioOposto}_userId`],
+                  'confirmado',
+                  usuarioOposto
+                );
+              }}
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={() => {
+                respostaConexao(userId, item[`${usuarioOposto}_userId`], 'recusado', usuarioOposto);
+              }}
+            >
+              Recusar
+            </button>
+          </li>
+        </>
+      ) : null
+    );
+  };
 
   return (
     <>
@@ -83,45 +118,17 @@ function NavBar({
             <div className={classes.icons}>
               <div className={classes.icon} onClick={() => setOpen(!open)}>
                 <Image src={notification} className={classes.iconImg} alt="" />
-                {notifications > 0 && <div className={classes.counter}>{notifications}</div>}
+                {notifications(adicionados, usuarioOposto) > 0 && (
+                  <div className={classes.counter}>{notifications(adicionados, usuarioOposto)}</div>
+                )}
               </div>
               {/* <div className={classes.icon} onClick={() => setOpen(!open)}>
                 <img src={Message} className="iconImg" alt="" />
               </div> */}
             </div>
-            {open && notifications > 0 && (
+            {open && notifications(adicionados, usuarioOposto) > 0 && (
               <div className={classes.notifications}>
-                <ul>
-                  {profissionaisAdicionados.sort(dynamicSort('nome')).map((profissional) =>
-                    profissional.Fornecedors[0].FornecedorProfissional.status == 'pendente' &&
-                    profissional.Fornecedors[0].FornecedorProfissional.iniciadoPor ==
-                      'profissional' ? (
-                      <>
-                        <li key={profissional.profissional_userId}>
-                          <p>{profissional.nome}</p>
-                          <button
-                            onClick={() => {
-                              respostaConexao(
-                                profissional.profissional_userId,
-                                userId,
-                                'confirmado'
-                              );
-                            }}
-                          >
-                            Confirmar
-                          </button>
-                          <button
-                            onClick={() => {
-                              respostaConexao(profissional.profissional_userId, userId, 'recusado');
-                            }}
-                          >
-                            Recusar
-                          </button>
-                        </li>
-                      </>
-                    ) : null
-                  )}
-                </ul>
+                <ul>{lista(adicionados, usuarioOposto)}</ul>
               </div>
             )}
           </div>

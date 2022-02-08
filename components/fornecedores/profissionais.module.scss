@@ -21,7 +21,7 @@
     }
   }
 
-  .profissional {
+  .usuarioOposto {
     text-transform: uppercase;
     padding: 0 40px;
     &:hover {
@@ -35,7 +35,8 @@
   .unselected {
     color: rgba(227, 120, 75, 0.4);
   }
-  .profissionalNome {
-    min-width: 30%;
+
+  .usuarioOpostoNome {
+    min-width: 20%;
   }
 }

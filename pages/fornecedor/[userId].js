@@ -15,8 +15,8 @@ import classes from './user.module.scss';
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [usuario, setUsuario] = useState([]);
-  const [profissionaisAdicionados, setProfissionaisAdicionados] = useState([]);
-  const [profissionaisNaoAdicionados, setProfissionaisNaoAdicionados] = useState([]);
+  const [adicionados, setAdicionados] = useState([]);
+  const [naoAdicionados, setNaoAdicionados] = useState([]);
   const [display, setDisplay] = useState('home');
   const [logo, setLogo] = useState('');
   const [mensagens, setMensagens] = useState([]);
@@ -59,8 +59,8 @@ function Home() {
         fornecedorId: userId,
       },
     });
-    setProfissionaisAdicionados(response.data.profissionaisAdicionados);
-    setProfissionaisNaoAdicionados(response.data.profissionaisNaoAdicionados);
+    setAdicionados(response.data.profissionaisAdicionados);
+    setNaoAdicionados(response.data.profissionaisNaoAdicionados);
   };
 
   if (isLoading) {
@@ -69,10 +69,12 @@ function Home() {
     return (
       <>
         <NavBar
-          setStateProfissionaisAdicionados={setProfissionaisAdicionados}
-          setStateProfissionaisNaoAdicionados={setProfissionaisNaoAdicionados}
-          profissionaisAdicionados={profissionaisAdicionados}
-          profissionaisNaoAdicionados={profissionaisNaoAdicionados}
+          setAdicionados={setAdicionados}
+          setNaoAdicionados={setNaoAdicionados}
+          adicionados={adicionados}
+          naoAdicionados={naoAdicionados}
+          tableName="Fornecedors"
+          usuarioOposto="profissional"
           usuario={usuario}
           userId={userId}
           tipo={localStorage.getItem('tipo')}
@@ -122,10 +124,10 @@ function Home() {
           {display == 'profissionais' ? (
             <div className={classes.container}>
               <Profissionais
-                setStateProfissionaisAdicionados={setProfissionaisAdicionados}
-                setStateProfissionaisNaoAdicionados={setProfissionaisNaoAdicionados}
-                profissionaisAdicionados={profissionaisAdicionados}
-                profissionaisNaoAdicionados={profissionaisNaoAdicionados}
+                setAdicionados={setAdicionados}
+                setNaoAdicionados={setNaoAdicionados}
+                adicionados={adicionados}
+                naoAdicionados={naoAdicionados}
               />
             </div>
           ) : null}
