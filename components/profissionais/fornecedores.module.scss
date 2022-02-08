@@ -21,7 +21,7 @@
     }
   }
 
-  .fornecedor {
+  .usuarioOposto {
     text-transform: uppercase;
     padding: 0 40px;
     &:hover {
@@ -36,7 +36,7 @@
     color: rgba(227, 120, 75, 0.4);
   }
 
-  .fornecedorNome {
+  .usuarioOpostoNome {
     min-width: 20%;
   }
 }

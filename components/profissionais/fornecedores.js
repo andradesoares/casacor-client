@@ -6,66 +6,136 @@ import classes from './fornecedores.module.scss';
 import { useState } from 'react';
 
 function Fornecedores({
-  fornecedoresAdicionados,
-  fornecedoresNaoAdicionados,
-  setStateFornecedoresAdicionados,
-  setStateFornecedoresNaoAdicionados,
+  setAdicionados,
+  setNaoAdicionados,
+  adicionados,
+  naoAdicionados,
+  tableName,
+  usuarioOposto,
+  tipo,
 }) {
   const [display, setDisplay] = useState('adicionados');
   const router = useRouter();
   const { userId } = router.query;
 
-  const comecarConexao = async (profissionalId, fornecedorId) => {
-    const response = await api.post(`/profissional/adicionarFornecedor`, {
-      profissionalId,
-      fornecedorId,
+  const comecarConexao = async (usuarioId, usuarioOpostoId, usuarioOposto) => {
+    const response = await api.post(`/${tipo}/adicionar${usuarioOposto}`, {
+      usuarioId,
+      usuarioOpostoId,
     });
 
-    setStateFornecedoresAdicionados([...fornecedoresAdicionados, response.data.fornecedor]);
-    setStateFornecedoresNaoAdicionados(
-      fornecedoresNaoAdicionados.filter(
-        (fornecedor) => fornecedor.fornecedor_userId !== response.data.fornecedor.fornecedor_userId
+    setAdicionados([...adicionados, response.data[`${usuarioOposto}`]]);
+    setNaoAdicionados(
+      naoAdicionados.filter(
+        (item) =>
+          item[`${usuarioOposto}_userId`] !==
+          response.data[`${usuarioOposto}`][`${usuarioOposto}_userId`]
       )
     );
   };
 
-  const respostaConexao = async (profissionalId, fornecedorId, resposta) => {
-    const response = await api.post(`/profissional/confirmarConexao`, {
-      profissionalId,
-      fornecedorId,
+  const respostaConexao = async (usuarioId, usuarioOpostoId, resposta, usuarioOpostoTipo) => {
+    const response = await api.post(`/${tipo}/confirmarConexao`, {
+      usuarioId,
+      usuarioOpostoId,
       resposta,
     });
 
     if (resposta == 'confirmado') {
-      setStateFornecedoresAdicionados(
-        fornecedoresAdicionados.map((fornecedor) =>
-          fornecedor.fornecedor_userId == response.data.fornecedor.fornecedor_userId
-            ? response.data.fornecedor
-            : fornecedor
+      setAdicionados(
+        adicionados.map((pessoa) =>
+          pessoa[`${usuarioOpostoTipo}_userId`] ==
+          response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
+            ? response.data[`${usuarioOpostoTipo}`]
+            : pessoa
         )
       );
     } else if (resposta == 'recusado') {
-      setStateFornecedoresNaoAdicionados([...fornecedoresNaoAdicionados, response.data.fornecedor]);
-      setStateFornecedoresAdicionados(
-        fornecedoresAdicionados.filter(
-          (fornecedor) =>
-            fornecedor.fornecedor_userId !== response.data.fornecedor?.fornecedor_userId
+      setNaoAdicionados([...naoAdicionados, response.data[`${usuarioOpostoTipo}`]]);
+      setAdicionados(
+        adicionados.filter(
+          (pessoa) =>
+            pessoa[`${usuarioOpostoTipo}_userId`] !==
+            response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
         )
       );
     }
   };
 
-  const cancelarConexao = async (profissionalId, fornecedorId) => {
-    const response = await api.post(`/profissional/cancelarConexao`, {
-      profissionalId,
-      fornecedorId,
+  const cancelarConexao = async (usuarioId, usuarioOpostoId, usuarioOpostoTipo) => {
+    const response = await api.post(`/${tipo}/cancelarConexao`, {
+      usuarioId,
+      usuarioOpostoId,
     });
-    setStateFornecedoresNaoAdicionados([...fornecedoresNaoAdicionados, response.data.fornecedor]);
-    setStateFornecedoresAdicionados(
-      fornecedoresAdicionados.filter(
-        (fornecedor) => fornecedor.fornecedor_userId !== response.data.fornecedor.fornecedor_userId
+    setNaoAdicionados([...naoAdicionados, response.data[`${usuarioOpostoTipo}`]]);
+    setAdicionados(
+      adicionados.filter(
+        (item) =>
+          item[`${usuarioOpostoTipo}_userId`] !==
+          response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
       )
     );
+  };
+
+  const listaAdicionados = (array, usuarioOposto) => {
+    return array.sort(dynamicSort('nome')).map((item) => (
+      <li key={item[`${usuarioOposto}_userId`]}>
+        <p className={classes.usuarioOpostoNome}>{item.nome}</p>
+        {item[tableName][0].FornecedorProfissional.status == 'confirmado' ? (
+          '- Confirmado'
+        ) : item[tableName][0].FornecedorProfissional.status == 'pendente' &&
+          item[tableName][0].FornecedorProfissional.iniciadoPor == tipo ? (
+          <button
+            onClick={() => {
+              cancelarConexao(userId, item[(`${usuarioOposto}_userId`, usuarioOposto)]);
+            }}
+          >
+            Cancelar
+          </button>
+        ) : item[tableName][0].FornecedorProfissional.status == 'pendente' &&
+          item[tableName][0].FornecedorProfissional.iniciadoPor == usuarioOposto ? (
+          <>
+            <button
+              onClick={() => {
+                respostaConexao(
+                  userId,
+                  item[`${usuarioOposto}_userId`],
+                  'confirmado',
+                  usuarioOposto
+                );
+              }}
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={() => {
+                respostaConexao(userId, item[`${usuarioOposto}_userId`], 'recusado', usuarioOposto);
+              }}
+            >
+              Recusar
+            </button>
+          </>
+        ) : item[tableName][0].FornecedorProfissional.status == 'pendente' &&
+          item[tableName][0].FornecedorProfissional.iniciadoPor == tipo ? (
+          'Cancelar'
+        ) : null}
+      </li>
+    ));
+  };
+
+  const listaNaoAdicionados = (array, usuarioOposto) => {
+    return array.sort(dynamicSort('nome')).map((item) => (
+      <li key={item[`${usuarioOposto}_userId]`]}>
+        <p className={classes.usuarioOpostoNome}>{item.nome}</p>
+        <button
+          onClick={() => {
+            comecarConexao(userId, item[`${usuarioOposto}_userId]`], usuarioOposto);
+          }}
+        >
+          Adicionar
+        </button>
+      </li>
+    ));
   };
 
   return (
@@ -73,7 +143,7 @@ function Fornecedores({
       <div className={classes.container}>
         <div style={{ display: 'flex' }}>
           <p
-            className={`${classes.fornecedor} ${
+            className={`${classes.usuarioOposto} ${
               display == 'adicionados' ? classes.selected : classes.unselected
             }`}
             onClick={() => setDisplay('adicionados')}
@@ -81,7 +151,7 @@ function Fornecedores({
             Adicionados
           </p>
           <p
-            className={`${classes.fornecedor} ${
+            className={`${classes.usuarioOposto} ${
               display == 'naoAdicionados' ? classes.selected : classes.unselected
             }`}
             onClick={() => setDisplay('naoAdicionados')}
@@ -90,65 +160,9 @@ function Fornecedores({
           </p>
         </div>
         {display == 'naoAdicionados' && (
-          <ul>
-            {fornecedoresNaoAdicionados.sort(dynamicSort('nome')).map((fornecedor) => (
-              <li key={fornecedor.fornecedor_userId}>
-                <p className={classes.fornecedorNome}>{fornecedor.nome}</p>
-                <button
-                  onClick={() => {
-                    comecarConexao(userId, fornecedor.fornecedor_userId);
-                  }}
-                >
-                  Adicionar
-                </button>
-              </li>
-            ))}
-          </ul>
+          <ul>{listaNaoAdicionados(naoAdicionados, usuarioOposto)}</ul>
         )}
-        {display == 'adicionados' && (
-          <ul>
-            {fornecedoresAdicionados.sort(dynamicSort('nome')).map((fornecedor) => (
-              <li key={fornecedor.fornecedor_userId}>
-                <p className={classes.fornecedorNome}>{fornecedor.nome}</p>
-                {fornecedor.Profissionals[0].FornecedorProfissional.status == 'confirmado' ? (
-                  '- Confirmado'
-                ) : fornecedor.Profissionals[0].FornecedorProfissional.status == 'pendente' &&
-                  fornecedor.Profissionals[0].FornecedorProfissional.iniciadoPor ==
-                    'profissional' ? (
-                  <button
-                    onClick={() => {
-                      cancelarConexao(userId, fornecedor.fornecedor_userId);
-                    }}
-                  >
-                    Cancelar
-                  </button>
-                ) : fornecedor.Profissionals[0].FornecedorProfissional.status == 'pendente' &&
-                  fornecedor.Profissionals[0].FornecedorProfissional.iniciadoPor == 'fornecedor' ? (
-                  <>
-                    <button
-                      onClick={() => {
-                        respostaConexao(userId, fornecedor.fornecedor_userId, 'confirmado');
-                      }}
-                    >
-                      Confirmar
-                    </button>
-                    <button
-                      onClick={() => {
-                        respostaConexao(userId, fornecedor.fornecedor_userId, 'recusado');
-                      }}
-                    >
-                      Recusar
-                    </button>
-                  </>
-                ) : fornecedor.Profissionals[0].FornecedorProfissional.status == 'pendente' &&
-                  fornecedor.Profissionals[0].FornecedorProfissional.iniciadoPor ==
-                    'profissional' ? (
-                  'Cancelar'
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        )}
+        {display == 'adicionados' && <ul>{listaAdicionados(adicionados, usuarioOposto)}</ul>}
       </div>
     </>
   );

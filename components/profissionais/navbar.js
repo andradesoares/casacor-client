@@ -11,46 +11,84 @@ import notification from '../../images/icons/notification.png';
 function NavBar({
   usuario,
   tipo,
-  setStateFornecedoresAdicionados,
-  setStateFornecedoresNaoAdicionados,
-  fornecedoresAdicionados,
-  fornecedoresNaoAdicionados,
+  setAdicionados,
+  setNaoAdicionados,
+  adicionados,
+  naoAdicionados,
+  tableName,
   userId,
+  usuarioOposto,
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const respostaConexao = async (profissionalId, fornecedorId, resposta) => {
-    const response = await api.post(`/profissional/confirmarConexao`, {
-      profissionalId,
-      fornecedorId,
+  const respostaConexao = async (usuarioId, usuarioOpostoId, resposta, usuarioOpostoTipo) => {
+    const response = await api.post(`/${tipo}/confirmarConexao`, {
+      usuarioId,
+      usuarioOpostoId,
       resposta,
     });
 
     if (resposta == 'confirmado') {
-      setStateFornecedoresAdicionados(
-        fornecedoresAdicionados.map((fornecedor) =>
-          fornecedor.fornecedor_userId == response.data.fornecedor.fornecedor_userId
-            ? response.data.fornecedor
-            : fornecedor
+      setAdicionados(
+        adicionados.map((pessoa) =>
+          pessoa[`${usuarioOpostoTipo}_userId`] ==
+          response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
+            ? response.data[`${usuarioOpostoTipo}`]
+            : pessoa
         )
       );
     } else if (resposta == 'recusado') {
-      setStateFornecedoresNaoAdicionados([...fornecedoresNaoAdicionados, response.data.fornecedor]);
-      setStateFornecedoresAdicionados(
-        fornecedoresAdicionados.filter(
-          (fornecedor) =>
-            fornecedor.fornecedor_userId !== response.data.fornecedor.fornecedor_userId
+      setNaoAdicionados([...naoAdicionados, response.data[`${usuarioOpostoTipo}`]]);
+      setAdicionados(
+        adicionados.filter(
+          (pessoa) =>
+            pessoa[`${usuarioOpostoTipo}_userId`] !==
+            response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
         )
       );
     }
   };
 
-  const notifications = fornecedoresAdicionados.filter(
-    (fornecedor) =>
-      fornecedor.Profissionals[0].FornecedorProfissional.status == 'pendente' &&
-      fornecedor.Profissionals[0].FornecedorProfissional.iniciadoPor == 'fornecedor'
-  ).length;
+  const notifications = (array, usuarioOposto) => {
+    return array.filter(
+      (item) =>
+        item[tableName][0].FornecedorProfissional.status == 'pendente' &&
+        item[tableName][0].FornecedorProfissional.iniciadoPor == usuarioOposto
+    ).length;
+  };
+
+  const lista = (array, usuarioOposto) => {
+    return array.sort(dynamicSort('nome')).map((item) =>
+      item[tableName][0].FornecedorProfissional.status == 'pendente' &&
+      item[tableName][0].FornecedorProfissional.iniciadoPor == usuarioOposto ? (
+        <>
+          <li key={item[`${usuarioOposto}_userId`]}>
+            <p>{item.nome}</p>
+            <button
+              onClick={() => {
+                respostaConexao(
+                  userId,
+                  item[`${usuarioOposto}_userId`],
+                  'confirmado',
+                  usuarioOposto
+                );
+              }}
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={() => {
+                respostaConexao(userId, item[`${usuarioOposto}_userId`], 'recusado', usuarioOposto);
+              }}
+            >
+              Recusar
+            </button>
+          </li>
+        </>
+      ) : null
+    );
+  };
 
   return (
     <>
@@ -80,41 +118,17 @@ function NavBar({
             <div className={classes.icons}>
               <div className={classes.icon} onClick={() => setOpen(!open)}>
                 <Image src={notification} className={classes.iconImg} alt="" />
-                {notifications > 0 && <div className={classes.counter}>{notifications}</div>}
+                {notifications(adicionados, usuarioOposto) > 0 && (
+                  <div className={classes.counter}>{notifications(adicionados, usuarioOposto)}</div>
+                )}
               </div>
               {/* <div className={classes.icon} onClick={() => setOpen(!open)}>
                 <img src={Message} className="iconImg" alt="" />
               </div> */}
             </div>
-            {open && notifications > 0 && (
+            {open && notifications(adicionados, usuarioOposto) > 0 && (
               <div className={classes.notifications}>
-                <ul>
-                  {fornecedoresAdicionados.sort(dynamicSort('nome')).map((fornecedor) =>
-                    fornecedor.Profissionals[0].FornecedorProfissional.status == 'pendente' &&
-                    fornecedor.Profissionals[0].FornecedorProfissional.iniciadoPor ==
-                      'fornecedor' ? (
-                      <>
-                        <li key={fornecedor.fornecedor_userId}>
-                          <p>{fornecedor.nome}</p>
-                          <button
-                            onClick={() => {
-                              respostaConexao(userId, fornecedor.fornecedor_userId, 'confirmado');
-                            }}
-                          >
-                            Confirmar
-                          </button>
-                          <button
-                            onClick={() => {
-                              respostaConexao(userId, fornecedor.fornecedor_userId, 'recusado');
-                            }}
-                          >
-                            Recusar
-                          </button>
-                        </li>
-                      </>
-                    ) : null
-                  )}
-                </ul>
+                <ul>{lista(adicionados, usuarioOposto)}</ul>
               </div>
             )}
           </div>

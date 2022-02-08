@@ -16,8 +16,8 @@ import classes from './user.module.scss';
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [usuario, setUsuario] = useState([]);
-  const [fornecedoresAdicionados, setFornecedoresAdicionados] = useState([]);
-  const [fornecedoresNaoAdicionados, setFornecedoresNaoAdicionados] = useState([]);
+  const [adicionados, setAdicionados] = useState([]);
+  const [naoAdicionados, setNaoAdicionados] = useState([]);
   const [display, setDisplay] = useState('home');
   const [ambiente, setAmbiente] = useState('');
   const [logo, setLogo] = useState('');
@@ -62,8 +62,8 @@ function Home() {
         profissionalId: userId,
       },
     });
-    setFornecedoresAdicionados(response.data.fornecedoresAdicionados);
-    setFornecedoresNaoAdicionados(response.data.fornecedoresNaoAdicionados);
+    setAdicionados(response.data.fornecedoresAdicionados);
+    setNaoAdicionados(response.data.fornecedoresNaoAdicionados);
   };
 
   if (isLoading) {
@@ -71,12 +71,13 @@ function Home() {
   } else {
     return (
       <>
-        {console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID)}
         <NavBar
-          setStateFornecedoresAdicionados={setFornecedoresAdicionados}
-          setStateFornecedoresNaoAdicionados={setFornecedoresNaoAdicionados}
-          fornecedoresAdicionados={fornecedoresAdicionados}
-          fornecedoresNaoAdicionados={fornecedoresNaoAdicionados}
+          setAdicionados={setAdicionados}
+          setNaoAdicionados={setNaoAdicionados}
+          adicionados={adicionados}
+          naoAdicionados={naoAdicionados}
+          tableName="Profissionals"
+          usuarioOposto="fornecedor"
           usuario={usuario}
           userId={userId}
           tipo={localStorage.getItem('tipo')}
@@ -133,10 +134,13 @@ function Home() {
           {display == 'fornecedores' ? (
             <div className={classes.container}>
               <Fornecedores
-                setStateFornecedoresAdicionados={setFornecedoresAdicionados}
-                setStateFornecedoresNaoAdicionados={setFornecedoresNaoAdicionados}
-                fornecedoresAdicionados={fornecedoresAdicionados}
-                fornecedoresNaoAdicionados={fornecedoresNaoAdicionados}
+                setAdicionados={setAdicionados}
+                setNaoAdicionados={setNaoAdicionados}
+                adicionados={adicionados}
+                naoAdicionados={naoAdicionados}
+                tableName="Profissionals"
+                usuarioOposto="fornecedor"
+                tipo={localStorage.getItem('tipo')}
               />
             </div>
           ) : null}
