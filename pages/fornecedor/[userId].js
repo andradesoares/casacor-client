@@ -128,6 +128,9 @@ function Home() {
                 setNaoAdicionados={setNaoAdicionados}
                 adicionados={adicionados}
                 naoAdicionados={naoAdicionados}
+                tableName="Fornecedors"
+                usuarioOposto="profissional"
+                tipo={localStorage.getItem('tipo')}
               />
             </div>
           ) : null}
