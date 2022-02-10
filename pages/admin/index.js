@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import FormLogin from '../../components/login/formLoginAdmin';
+import FormLogin from '../../components/formLogin';
 import { TryLocalSignin } from '../../services/auth';
 
 import classes from './index.module.scss';

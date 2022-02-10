@@ -1,0 +1,19 @@
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  .selected {
+    color: #ff6c44;
+    font-weight: 600;
+  }
+  .unselected {
+    color: rgba(227, 120, 75, 0.4);
+  }
+
+  .button {
+    text-transform: uppercase;
+    padding: 0 40px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

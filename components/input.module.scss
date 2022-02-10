@@ -1,0 +1,32 @@
+.containerInput {
+  display: flex;
+  background-color: white;
+  border: 1px solid black;
+  justify-content: space-between;
+  padding: 0;
+
+  input,
+  select,
+  option {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    padding: 5px 0;
+    padding-left: 10px;
+    &:-webkit-autofill {
+      box-shadow: 0 0 0px 1000px white inset;
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+
+    &:-webkit-autofill:focus {
+      box-shadow: 0 0 0 50px white inset;
+      -webkit-box-shadow: 0 0 0 50px white inset;
+      -webkit-text-fill-color: #333;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: white;
+    }
+  }
+}

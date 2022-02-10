@@ -2,10 +2,10 @@ import { useRouter } from 'next/router';
 import { dynamicSort } from '../../services/helpers';
 import api from '../../services/api';
 
-import classes from './fornecedores.module.scss';
+import classes from './conexoes.module.scss';
 import { useState } from 'react';
 
-function Fornecedores({
+function Conexoes({
   setAdicionados,
   setNaoAdicionados,
   adicionados,
@@ -87,7 +87,7 @@ function Fornecedores({
           item[tableName][0].FornecedorProfissional.iniciadoPor == tipo ? (
           <button
             onClick={() => {
-              cancelarConexao(userId, item[(`${usuarioOposto}_userId`, usuarioOposto)]);
+              cancelarConexao(userId, item[`${usuarioOposto}_userId`], usuarioOposto);
             }}
           >
             Cancelar
@@ -168,4 +168,4 @@ function Fornecedores({
   );
 }
 
-export default Fornecedores;
+export default Conexoes;

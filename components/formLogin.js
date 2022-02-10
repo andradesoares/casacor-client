@@ -3,13 +3,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { signIn } from '../../services/auth';
+import { signIn } from '../services/auth';
 
 import classes from './formLogin.module.scss';
-import eye_close from '../../images/icons/eye_close.png';
-import eye from '../../images/icons/eye.png';
+import eye_close from '../images/icons/eye_close.png';
+import eye from '../images/icons/eye.png';
+import Input from './input';
+import Button from './button';
 
-function FormLogin({ usuario, setUsuario }) {
+function FormLogin({ usuario, children, route }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -29,39 +31,15 @@ function FormLogin({ usuario, setUsuario }) {
   return (
     <div className={classes.container}>
       <h1 className={classes.h1}>Entrar</h1>
-      <div className={classes.buttonContainer}>
-        <p
-          className={`${classes.button} ${
-            usuario == 'profissional' ? classes.selected : classes.unselected
-          }`}
-          onClick={() => setUsuario('profissional')}
-        >
-          Profissional
-        </p>
-        <p
-          className={`${classes.button} ${
-            usuario == 'fornecedor' ? classes.selected : classes.unselected
-          }`}
-          onClick={() => setUsuario('fornecedor')}
-        >
-          Fornecedor
-        </p>
-      </div>
-      <form onSubmit={submitHandler}>
-        {' '}
-        <label style={{ textTransform: 'upperCase' }} htmlFor="email">
-          Email
-        </label>
-        <div className={classes.containerInput}>
-          <input
-            placeholder="Seu e-mail"
-            type="email"
-            name="email"
-            id="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>{' '}
+      {children}
+      <form>
+        <Input
+          onChange={(event) => setEmail(event.target.value)}
+          label="E-mail"
+          type="email"
+          placeholder="Seu email"
+          value={email}
+        />
         <label style={{ textTransform: 'upperCase' }} htmlFor="password">
           Senha
         </label>
@@ -86,17 +64,10 @@ function FormLogin({ usuario, setUsuario }) {
           </div>
         </div>
         <div style={{ justifyContent: 'space-between' }} className={classes.buttonContainer}>
-          <Link className={classes.esqueciButton} href={`/recuperar-senha/${usuario}`}>
+          <Link className={classes.esqueciButton} href={route}>
             Esqueci Senha
           </Link>
-          <button
-            className={`${classes.loginButton} ${
-              isEnableSignUp() ? classes.loginButtonEnabled : classes.loginButtonDisabled
-            }`}
-            disabled={isEnableSignUp() ? false : true}
-          >
-            Login
-          </button>
+          <Button disabled={isEnableSignUp()} onClick={submitHandler} label="Login" />
         </div>
       </form>
       {error && <div>{error}</div>}

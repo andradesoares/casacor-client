@@ -4,6 +4,8 @@ import api from '../../services/api';
 import classes from './infos.module.scss';
 
 import { cpfMask, date } from '../../services/helpers';
+import Input from '../input';
+import Button from '../button';
 
 function Infos({ usuario, setUsuario }) {
   const [editarPerfil, setEditarPerfil] = useState(false);
@@ -45,94 +47,53 @@ function Infos({ usuario, setUsuario }) {
       {editarPerfil ? (
         <div className={classes.container}>
           <form>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nome">
-                Nome:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Nome"
-                  type="text"
-                  name="nome"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="escritorio">
-                Nome do Escritório:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Nome Escritório"
-                  type="text"
-                  name="escritorio"
-                  value={nomeEscritorio}
-                  onChange={(event) => setNomeEscritorio(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nascimento">
-                Data de Nascimento:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Data de Nascimento"
-                  name="nascimento"
-                  value={dataDeNascimento}
-                  onChange={(event) => setDataDeNascimento(date(event.target.value))}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="cpf">
-                CPF:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="CPF"
-                  type="text"
-                  name="cpf"
-                  value={cpf}
-                  onChange={(event) => setCpf(cpfMask(event.target.value))}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="endereco">
-                Endereço:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Endereço"
-                  type="text"
-                  name="endereco"
-                  value={endereco}
-                  onChange={(event) => setEndereco(event.target.value)}
-                />
-              </div>
-            </div>
+            <Input
+              placeholder="Nome"
+              type="text"
+              label="Nome"
+              value={nome}
+              style="inline"
+              onChange={(event) => setNome(event.target.value)}
+            />
+            <Input
+              placeholder="Nome do Escritorio"
+              type="text"
+              label="Nome do Escritorio"
+              value={nomeEscritorio}
+              style="inline"
+              onChange={(event) => setNomeEscritorio(event.target.value)}
+            />
+            <Input
+              placeholder="Data de Nascimento"
+              label="Data de Nascimento"
+              onChange={(event) => {
+                setDataDeNascimento(date(event.target.value));
+              }}
+              value={dataDeNascimento}
+              style="inline"
+            />
+            <Input
+              placeholder="CPF"
+              label="CPF"
+              type="text"
+              value={cpf}
+              style="inline"
+              onChange={(event) => setCpf(cpfMask(event.target.value))}
+            />
+            <Input
+              placeholder="Endereço"
+              type="text"
+              label="Endereço"
+              value={endereco}
+              style="inline"
+              onChange={(event) => setEndereco(event.target.value)}
+            />
             <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
               <div>
-                <button
-                  onClick={editarPerfilHandler}
-                  className={`${classes.button} ${
-                    isEnableSignUp() ? classes.buttonEnabled : classes.buttonDisabled
-                  }`}
-                  disabled={isEnableSignUp() ? false : true}
-                >
-                  Salvar
-                </button>
+                <Button disabled={isEnableSignUp()} onClick={editarPerfilHandler} label="Salvar" />
               </div>
               <div>
-                <button
-                  className={`${classes.button} ${classes.buttonEnabled}`}
-                  onClick={cancelarEditarPerfil}
-                >
-                  Cancelar
-                </button>
+                <Button disabled={false} onClick={cancelarEditarPerfil} label="Cancelar" />
               </div>
             </div>
           </form>
@@ -164,15 +125,13 @@ function Infos({ usuario, setUsuario }) {
             <p className={classes.titulo}>Endereço:</p>
             <p>{endereco}</p>
           </div>
-          <button
-            style={{ marginTop: '30px' }}
-            className={`${classes.button} ${classes.buttonEnabled}`}
+          <Button
+            disabled={false}
             onClick={() => {
               setEditarPerfil(true);
             }}
-          >
-            Editar
-          </button>
+            label="Editar"
+          />
         </div>
       )}
     </>

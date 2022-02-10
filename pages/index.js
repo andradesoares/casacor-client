@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+
 import { TryLocalSignin } from '../services/auth';
-import FormLogin from '../components/login/formLogin';
-import FormProfissionalCadastro from '../components/cadastro/formProfissionalCadastro';
-import FormFornecedorCadastro from '../components/cadastro/formFornecedorCadastro';
+import FormLogin from '../components/formLogin';
+import FormProfissionalCadastro from '../components/formProfissionalCadastro';
+import FormFornecedorCadastro from '../components/formFornecedorCadastro';
 
 import classes from './index.module.scss';
+import TrocarUsuario from '../components/trocarUsuario';
 
 function AuthPage() {
   const router = useRouter();
@@ -32,7 +33,13 @@ function AuthPage() {
           <h1>LOGO</h1>
         </div>
         {login ? (
-          <FormLogin setUsuario={setUsuario} route="/recuperar-senha" usuario={usuario} />
+          <FormLogin
+            setUsuario={setUsuario}
+            route={`/recuperar-senha/${usuario}`}
+            usuario={usuario}
+          >
+            <TrocarUsuario setUsuario={setUsuario} usuario={usuario} />
+          </FormLogin>
         ) : usuario == 'profissional' ? (
           <FormProfissionalCadastro setUsuario={setUsuario} usuario={usuario} />
         ) : (

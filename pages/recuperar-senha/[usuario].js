@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import FormEsqueciSenha from '../../components/esqueciASenha/formRequisicao';
+import FormEsqueciSenha from '../../components/formRequisicao';
 import { TryLocalSignin } from '../../services/auth';
 
 function RecuperSenha() {
@@ -26,7 +26,7 @@ function RecuperSenha() {
       <>
         <section>
           <div>
-            <FormEsqueciSenha usuario={usuario} />
+            <FormEsqueciSenha usuario={usuario} route={usuario == 'admin' ? '/admin' : '/'} />
           </div>
         </section>
       </>

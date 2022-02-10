@@ -4,6 +4,8 @@ import api from '../../services/api';
 import classes from './infos.module.scss';
 
 import { phone } from '../../services/helpers';
+import Input from '../input';
+import Button from '../button';
 
 function Infos({ usuario, setUsuario }) {
   const [editarPerfil, setEditarPerfil] = useState(false);
@@ -50,96 +52,53 @@ function Infos({ usuario, setUsuario }) {
     <>
       {editarPerfil ? (
         <div className={classes.container}>
-          <form onSubmit={editarPerfilHandler}>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nome">
-                Nome:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Nome"
-                  type="text"
-                  name="nome"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="descricaoProduto">
-                Descrição do Produto:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Descrição do produto"
-                  type="text"
-                  name="descricaoProduto"
-                  value={descricaoProduto}
-                  onChange={(event) => setDescricaoProduto(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="telefone">
-                Telefone:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Telefone"
-                  type="tel"
-                  value={telefone}
-                  name="telefone"
-                  onChange={(event) => setTelefone(phone(event.target.value))}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="site">
-                Site da Empresa:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Site da empresa"
-                  type="text"
-                  name="site"
-                  value={siteEmpresa}
-                  onChange={(event) => setSiteEmpresa(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="instagram">
-                Perfil no Instagram:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Perfil no Instagram"
-                  type="text"
-                  name="instagram"
-                  value={siteEmpresa}
-                  onChange={(event) => setPerfilInstagram(event.target.value)}
-                />
-              </div>
-            </div>
+          <form>
+            <Input
+              placeholder="Nome"
+              type="text"
+              label="Nome"
+              value={nome}
+              style="inline"
+              onChange={(event) => setNome(event.target.value)}
+            />
+            <Input
+              placeholder="Descrição do produto"
+              type="text"
+              label="Descrição do produto"
+              value={descricaoProduto}
+              style="inline"
+              onChange={(event) => setDescricaoProduto(event.target.value)}
+            />
+            <Input
+              placeholder="Telefone"
+              type="text"
+              label="Telefone"
+              value={telefone}
+              style="inline"
+              onChange={(event) => setTelefone(phone(event.target.value))}
+            />
+            <Input
+              placeholder="Site da empresa"
+              type="text"
+              label="Site da empresa"
+              value={siteEmpresa}
+              style="inline"
+              onChange={(event) => setSiteEmpresa(event.target.value)}
+            />
+            <Input
+              placeholder="Perfil Instagram"
+              type="text"
+              label="Perfil Instagram"
+              value={siteEmpresa}
+              style="inline"
+              onChange={(event) => setPerfilInstagram(event.target.value)}
+            />
             <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
               <div>
-                <button
-                  onClick={editarPerfilHandler}
-                  className={`${classes.button} ${
-                    isEnableSignUp() ? classes.buttonEnabled : classes.buttonDisabled
-                  }`}
-                  disabled={isEnableSignUp() ? false : true}
-                >
-                  Salvar
-                </button>
+                <Button disabled={isEnableSignUp()} onClick={editarPerfilHandler} label="Salvar" />
               </div>
               <div>
-                <button
-                  className={`${classes.button} ${classes.buttonEnabled}`}
-                  onClick={cancelarEditarPerfil}
-                >
-                  Cancelar
-                </button>
+                <Button disabled={false} onClick={cancelarEditarPerfil} label="Cancelar" />
               </div>
             </div>
           </form>
@@ -171,16 +130,13 @@ function Infos({ usuario, setUsuario }) {
             <p className={classes.titulo}>Perfil no Instagram:</p>
             <p>{perfilInstagram}</p>
           </div>
-          <button
-            style={{ marginTop: '30px' }}
-            className={`${classes.button} ${classes.buttonEnabled}`}
-            type="button"
+          <Button
+            disabled={false}
             onClick={() => {
               setEditarPerfil(true);
             }}
-          >
-            Editar
-          </button>
+            label="Editar"
+          />
         </div>
       )}
     </>

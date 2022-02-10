@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import api from '../../services/api';
 import Infos from '../../components/profissionais/infos';
-import Fornecedores from '../../components/profissionais/fornecedores';
-import Arquivos from '../../components/profissionais/arquivos';
+import Conexoes from '../../components/conexoes';
+import Arquivos from '../../components/arquivos';
 import Ambiente from '../../components/profissionais/ambiente';
 import PaginaPrincipal from '../../components/profissionais/home';
-import NavBar from '../../components/profissionais/navbar';
+import NavBar from '../../components/navbar';
 import MenuLateral from '../../components/layout/menuLateral';
 import ItemMenuLateral from '../../components/layout/itemMenuLateral';
-import Mensagem from '../../components/profissionais/mensagem';
+import Mensagem from '../../components/mensagem';
 
 import classes from './user.module.scss';
 
@@ -133,7 +133,7 @@ function Home() {
           ) : null}
           {display == 'fornecedores' ? (
             <div className={classes.container}>
-              <Fornecedores
+              <Conexoes
                 setAdicionados={setAdicionados}
                 setNaoAdicionados={setNaoAdicionados}
                 adicionados={adicionados}
@@ -151,7 +151,13 @@ function Home() {
           ) : null}
           {display == 'arquivos' ? (
             <div className={classes.container}>
-              <Arquivos userId={userId} nome={usuario.nome} logo={logo} setLogo={setLogo} />
+              <Arquivos
+                usuario={localStorage.getItem('tipo')}
+                userId={userId}
+                nome={usuario.nome}
+                logo={logo}
+                setLogo={setLogo}
+              />
             </div>
           ) : null}
           {display == 'mensagens' ? (

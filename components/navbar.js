@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { dynamicSort } from '../../services/helpers';
-import api from '../../services/api';
-import { signOut } from '../../services/auth';
+
+import { dynamicSort } from '../services/helpers';
+import api from '../services/api';
+import { signOut } from '../services/auth';
 import classes from './navbar.module.scss';
 
-import notification from '../../images/icons/notification.png';
+import notification from '../images/icons/notification.png';
 
 function NavBar({
   usuario,

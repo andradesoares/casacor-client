@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import api from '../../services/api';
 
+import api from '../../services/api';
 import classes from './ambiente.module.scss';
+import Input from '../input';
+import Button from '../button';
 
 function Ambiente({ ambiente, userId, setAmbiente }) {
   const [editarAmbiente, setEditarAmbiente] = useState(false);
@@ -87,70 +89,47 @@ function Ambiente({ ambiente, userId, setAmbiente }) {
     <>
       {editarAmbiente ? (
         <div className={classes.container}>
-          <form onSubmit={editarAmbienteHandler}>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nome">
-                Nome do Ambiente:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder=" Nome do Ambiente"
-                  type="text"
-                  name="nome"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="nomeResponsavelObra">
-                Nome do Responsavel pela Obra:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Nome do Responsavel pela Obra"
-                  type="text"
-                  name="nomeResponsavelObra"
-                  value={nomeResponsavelObra}
-                  onChange={(event) => setNomeResponsavelObra(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="telefoneResponsavelObra">
-                Telefone do Responsavel pela Obra:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Telefone do Responsavel pela Obra"
-                  name="telefoneResponsavelObra"
-                  value={telefoneResponsavelObra}
-                  onChange={(event) => setTelefoneResponsavelObra(event.target.value)}
-                />
-              </div>
-            </div>
-            <div className={classes.formContainer}>
-              <label className={classes.titulo} htmlFor="emailResponsavelObra">
-                Email do Responsavel pela Obra:
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Email do Responsavel pela Obra"
-                  type="email"
-                  name="emailResponsavelObra"
-                  value={emailResponsavelObra}
-                  onChange={(event) => setEmailResponsavelObra(event.target.value)}
-                />
-              </div>
-            </div>
+          <form>
+            <Input
+              placeholder="Nome do Ambiente"
+              type="text"
+              label="Nome do Ambiente"
+              style="inline"
+              value={nome}
+              onChange={(event) => setNome(event.target.value)}
+            />
+            <Input
+              placeholder="Nome do Responsavel pela Obra"
+              type="text"
+              label="Nome do Responsavel pela Obra"
+              style="inline"
+              value={nomeResponsavelObra}
+              onChange={(event) => setNomeResponsavelObra(event.target.value)}
+            />
+            <Input
+              placeholder="Telefone do Responsavel pela Obra"
+              type="text"
+              label="Telefone do Responsavel pela Obra"
+              style="inline"
+              value={telefoneResponsavelObra}
+              onChange={(event) => setTelefoneResponsavelObra(event.target.value)}
+            />
+            <Input
+              placeholder="Email do Responsavel pela Obra"
+              type="text"
+              label="Email do Responsavel pela Obra"
+              style="inline"
+              value={emailResponsavelObra}
+              onChange={(event) => setEmailResponsavelObra(event.target.value)}
+            />
             {checklist()}
             <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
               <div>
-                <button className={`${classes.button} ${classes.buttonEnabled}`}>Salvar</button>
+                <Button disabled={false} onClick={editarAmbienteHandler} label="Salvar" />
               </div>
               <div>
-                <button
-                  className={`${classes.button} ${classes.buttonEnabled}`}
+                <Button
+                  disabled={false}
                   onClick={() => {
                     setEditarAmbiente(false);
                     setNome(ambiente?.nome);
@@ -161,9 +140,8 @@ function Ambiente({ ambiente, userId, setAmbiente }) {
                     setMaterialReciclavel(ambiente?.Sustentabilidade.materialReciclavel);
                     setEnergiaSolar(ambiente?.Sustentabilidade.energiaSolar);
                   }}
-                >
-                  Cancelar
-                </button>
+                  label="Cancelar"
+                />
               </div>
             </div>
           </form>
@@ -192,15 +170,13 @@ function Ambiente({ ambiente, userId, setAmbiente }) {
           </div>
 
           {checklist()}
-          <button
-            style={{ marginTop: '30px' }}
-            className={`${classes.button} ${classes.buttonEnabled}`}
+          <Button
+            disabled={false}
             onClick={() => {
               setEditarAmbiente(true);
             }}
-          >
-            Editar
-          </button>
+            label="Editar"
+          />
         </div>
       )}
     </>
