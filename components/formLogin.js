@@ -24,8 +24,8 @@ function FormLogin({ usuario, children, route }) {
     signIn(email, password, usuario, router.push, setError);
   };
 
-  const isEnableSignUp = () => {
-    return email != '' && password != '';
+  const disabledButton = () => {
+    return email == '' || password == '';
   };
 
   return (
@@ -67,7 +67,7 @@ function FormLogin({ usuario, children, route }) {
           <Link className={classes.esqueciButton} href={route}>
             Esqueci Senha
           </Link>
-          <Button disabled={isEnableSignUp()} onClick={submitHandler} label="Login" />
+          <Button disabled={disabledButton()} onClick={submitHandler} label="Login" />
         </div>
       </form>
       {error && <div>{error}</div>}

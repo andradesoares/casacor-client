@@ -16,8 +16,8 @@ function FormEsqueciSenha({ usuario, route }) {
     requisitarNovaSenha(email, usuario, setError, setMessage);
   };
 
-  const isEnableSignUp = () => {
-    return email != '';
+  const disabledButton = () => {
+    return email == '';
   };
 
   return (
@@ -35,7 +35,7 @@ function FormEsqueciSenha({ usuario, route }) {
           <Link className={classes.esqueciButton} href={route}>
             Login
           </Link>
-          <Button disabled={isEnableSignUp()} onClick={submitHandler} label="Enviar" />
+          <Button disabled={disabledButton()} onClick={submitHandler} label="Enviar" />
         </div>
       </form>
       <div>

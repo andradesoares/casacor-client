@@ -36,9 +36,9 @@ function Infos({ usuario, setUsuario }) {
     setCpf(usuario.cpf);
   };
 
-  const isEnableSignUp = () => {
+  const disabledButton = () => {
     return (
-      nome != '' && nomeEscritorio != '' && dataDeNascimento != '' && cpf != '' && endereco != ''
+      nome == '' || nomeEscritorio == '' || dataDeNascimento == '' || cpf == '' || endereco == ''
     );
   };
 
@@ -90,7 +90,7 @@ function Infos({ usuario, setUsuario }) {
             />
             <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
               <div>
-                <Button disabled={isEnableSignUp()} onClick={editarPerfilHandler} label="Salvar" />
+                <Button disabled={disabledButton()} onClick={editarPerfilHandler} label="Salvar" />
               </div>
               <div>
                 <Button disabled={false} onClick={cancelarEditarPerfil} label="Cancelar" />

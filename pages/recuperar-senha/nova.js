@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { TryLocalSignin, trocarSenha } from '../../services/auth';
 import eye_close from '../../images/icons/eye_close.png';
 import eye from '../../images/icons/eye.png';
+import Button from '../../components/button';
 
 import classes from './nova.module.scss';
 
@@ -34,8 +35,8 @@ function RecuperSenha() {
     };
   }, []);
 
-  const isEnable = () => {
-    return password != '';
+  const disabledButton = () => {
+    return password == '';
   };
 
   if (isLoading) {
@@ -45,7 +46,7 @@ function RecuperSenha() {
       <>
         <div style={{ minWidth: '392px' }} className={classes.container}>
           <h1 className={classes.h1}>Cadastrar nova senha</h1>
-          <form onSubmit={submitHandler}>
+          <form>
             {' '}
             <label style={{ textTransform: 'upperCase' }} htmlFor="password">
               Senha
@@ -74,14 +75,7 @@ function RecuperSenha() {
               style={{ justifyContent: 'flex-end', paddingTop: '0' }}
               className={classes.buttonContainer}
             >
-              <button
-                className={`${classes.loginButton} ${
-                  isEnable() ? classes.loginButtonEnabled : classes.loginButtonDisabled
-                }`}
-                disabled={isEnable() ? false : true}
-              >
-                Enviar
-              </button>
+              <Button disabled={disabledButton()} onClick={submitHandler} label="Enviar"></Button>
             </div>
           </form>
           <div>

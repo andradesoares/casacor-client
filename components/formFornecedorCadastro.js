@@ -36,15 +36,14 @@ function FormFornecedorCadastro({ setUsuario, usuario }) {
     );
   };
 
-  const isEnableSignUp = () => {
+  const disabledButton = () => {
     return (
-      email != '' &&
-      password != '' &&
-      nome != '' &&
-      descricaoProduto != '' &&
-      telefone != '' &&
-      siteEmpresa != '' &&
-      perfilInstagram != ''
+      email == '' ||
+      password == '' ||
+      (nome == '' && descricaoProduto == '') ||
+      telefone == '' ||
+      siteEmpresa == '' ||
+      perfilInstagram == ''
     );
   };
 
@@ -110,7 +109,7 @@ function FormFornecedorCadastro({ setUsuario, usuario }) {
           onChange={(event) => setPassword(event.target.value)}
         />
         <div style={{ justifyContent: 'flex-end' }} className={classes.buttonContainer}>
-          <Button disabled={isEnableSignUp()} onClick={submitHandler} label="Cadastrar" />
+          <Button disabled={disabledButton()} onClick={submitHandler} label="Cadastrar" />
         </div>
       </form>
       <div>

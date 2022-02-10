@@ -38,13 +38,13 @@ function Infos({ usuario, setUsuario }) {
     setPerfilInstagram(usuario.perfilInstagram);
   };
 
-  const isEnableSignUp = () => {
+  const disabledButton = () => {
     return (
-      nome != '' &&
-      descricaoProduto != '' &&
-      telefone != '' &&
-      siteEmpresa != '' &&
-      perfilInstagram != ''
+      nome == '' ||
+      descricaoProduto == '' ||
+      telefone == '' ||
+      siteEmpresa == '' ||
+      perfilInstagram == ''
     );
   };
 
@@ -95,7 +95,7 @@ function Infos({ usuario, setUsuario }) {
             />
             <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
               <div>
-                <Button disabled={isEnableSignUp()} onClick={editarPerfilHandler} label="Salvar" />
+                <Button disabled={disabledButton()} onClick={editarPerfilHandler} label="Salvar" />
               </div>
               <div>
                 <Button disabled={false} onClick={cancelarEditarPerfil} label="Cancelar" />
