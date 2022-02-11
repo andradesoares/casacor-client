@@ -5,6 +5,7 @@ import { dynamicSort } from '../../services/helpers';
 import api from '../../services/api';
 import ReactExport from 'react-export-excel';
 import classes from './planilhas.module.scss';
+import TrocarUsuario from '../trocarUsuario';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -13,26 +14,47 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 const Planilhas = ({ fornecedores, profissionais }) => {
   const [display, setDisplay] = useState('profissional');
 
+  // const displayPlanilha = (array, tipo) => {
+  //   return (
+  //     <>
+  //       <div>
+  //         <h4>{tipo}</h4>
+  //         <table id="table-to-xls" className={classes.table}>
+  //           <tr>
+  //             {arrayKeys(array).map((item) => (
+  //               <>
+  //                 <th>{item}</th>
+  //               </>
+  //             ))}
+  //           </tr>
+  //           {array.sort(dynamicSort('nome')).map((item) => (
+  //             <tr>
+  //               <>
+  //                 {arrayKeys(array).map((key) => (
+  //                   <td>{console.log(item[key])}</td>
+  //                 ))}
+  //               </>
+  //             </tr>
+  //           ))}
+  //         </table>
+  //         <ExcelFile
+  //           element={<button className={classes.downloadButton}>Baixar Planilha</button>}
+  //           filename={`Tabela_${tipo}`}
+  //         >
+  //           <ExcelSheet data={array} name={tipo}>
+  //             <ExcelColumn label="Nome" value="nome" />
+  //             <ExcelColumn label="Nome escritorio" value="nomeEscritorio" />
+  //             <ExcelColumn label="Email" value="email" />
+  //           </ExcelSheet>
+  //         </ExcelFile>
+  //       </div>
+  //     </>
+  //   );
+  // };
+
   return (
     <>
-      <div className={classes.buttonContainer}>
-        <p
-          className={`${classes.button} ${
-            display == 'profissional' ? classes.selected : classes.unselected
-          }`}
-          onClick={() => setDisplay('profissional')}
-        >
-          Profissional
-        </p>
-        <p
-          className={`${classes.button} ${
-            display == 'fornecedor' ? classes.selected : classes.unselected
-          }`}
-          onClick={() => setDisplay('fornecedor')}
-        >
-          Fornecedor
-        </p>
-      </div>
+      <TrocarUsuario setUsuario={setDisplay} usuario={display} />
       <div style={{ display: 'flex' }}>
         {display == 'profissional' ? (
           <>
