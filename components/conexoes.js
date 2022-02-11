@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { dynamicSort } from '../../services/helpers';
-import api from '../../services/api';
+import { dynamicSort } from '../services/helpers';
+import api from '../services/api';
 
 import classes from './conexoes.module.scss';
 import { useState } from 'react';

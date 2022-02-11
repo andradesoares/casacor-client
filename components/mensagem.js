@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import classes from './mensagem.module.scss';
-import api from '../../services/api';
+import api from '../services/api';
 
 const Mensagem = ({ mensagens }) => {
   return (
