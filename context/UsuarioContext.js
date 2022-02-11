@@ -1,7 +1,7 @@
 import createDataContext from './createDataContext';
 import api from '../services/api';
 
-const fornecedoresReducer = (state, action) => {
+const usuariosReducer = (state, action) => {
   switch (action.type) {
     case 'GET_FORNECEDORES_SUCCESS':
       return { ...state, fornecedores: action.payload };
@@ -44,7 +44,7 @@ const addFornecedor = (dispatch) => {
 };
 
 export const { Provider, Context } = createDataContext(
-  fornecedoresReducer,
+  usuariosReducer,
   { getFornecedores, addFornecedor },
   []
 );
