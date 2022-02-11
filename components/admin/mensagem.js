@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 import classes from './mensagem.module.scss';
 import api from '../../services/api';
+import Button from '../button';
+import Input from '../input';
+import TrocarUsuario from '../trocarUsuario';
 
 const Mensagem = ({ adminId, mensagens, setMensagens, tipo }) => {
   const [count, setCount] = useState(1500);
@@ -39,8 +42,8 @@ const Mensagem = ({ adminId, mensagens, setMensagens, tipo }) => {
     }
   };
 
-  const isEnableSignUp = () => {
-    return message != '' && titulo != '' && (fornecedores != false || profissionais != false);
+  const disabledButton = () => {
+    return message == '' || titulo == '' || (fornecedores == false && profissionais == false);
   };
 
   const destinatarios = (value, set) => {
@@ -64,14 +67,13 @@ const Mensagem = ({ adminId, mensagens, setMensagens, tipo }) => {
       {display == 'mensagens' ? (
         <>
           {tipo == 'pleno' ? (
-            <button
-              className={`${classes.button} ${classes.buttonEnabled}`}
+            <Button
+              label="Nova"
+              disabled={false}
               onClick={() => {
                 setDisplay('nova');
               }}
-            >
-              Nova
-            </button>
+            />
           ) : null}
           {mensagens.map((mensagem) => {
             return (
@@ -89,15 +91,12 @@ const Mensagem = ({ adminId, mensagens, setMensagens, tipo }) => {
       ) : null}
       {display == 'nova' ? (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <label htmlFor="titulo">Titulo</label>
-          <input
-            style={{ height: '20px', margin: '10px 0' }}
+          <Input
+            placeholder="Titulo"
             type="text"
+            label="Titulo"
             value={titulo}
-            name="titulo"
-            onChange={(event) => {
-              setTitulo(event.target.value);
-            }}
+            onChange={(event) => setTitulo(event.target.value)}
           />
           <label htmlFor="message">Menssagem</label>
           <textarea
@@ -136,25 +135,20 @@ const Mensagem = ({ adminId, mensagens, setMensagens, tipo }) => {
             </div>
           </div>
           <div style={{ display: 'flex' }}>
-            <button
-              className={`${classes.button} ${
-                isEnableSignUp() ? classes.buttonEnabled : classes.buttonDisabled
-              }`}
-              disabled={isEnableSignUp() ? false : true}
+            <Button
+              label="Enviar"
+              disabled={disabledButton()}
               onClick={() => {
                 enviarMensagem();
               }}
-            >
-              Enviar
-            </button>
-            <button
-              className={`${classes.button} ${classes.buttonEnabled}`}
+            />
+            <Button
+              label="Cancelar"
+              disabled={false}
               onClick={() => {
                 cancelarmensagem();
               }}
-            >
-              Cancelar
-            </button>
+            />
           </div>
         </div>
       ) : null}

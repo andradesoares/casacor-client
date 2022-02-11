@@ -2,6 +2,8 @@ import { useState } from 'react';
 import api from '../../services/api';
 
 import classes from './admins.module.scss';
+import Input from '../input';
+import Button from '../button';
 
 const Admins = ({ adminId, admins, setAdmins }) => {
   const [nome, setNome] = useState('');
@@ -68,8 +70,8 @@ const Admins = ({ adminId, admins, setAdmins }) => {
     setUsuario(response.data.usuario);
   };
 
-  const isEnableSignUp = () => {
-    return nome != '' && email != '';
+  const disabledButton = () => {
+    return nome == '' || email == '';
   };
 
   return (
@@ -92,14 +94,13 @@ const Admins = ({ adminId, admins, setAdmins }) => {
             </select> */}
           </div>
           <div>
-            <button
-              className={classes.downloadButton}
+            <Button
+              label="Excluir"
               onClick={() => {
                 excluirAdmin(admin.admin_userId);
               }}
-            >
-              Excluir
-            </button>
+              disabled={false}
+            />
           </div>
           {/* <div
             onClick={() => {
@@ -113,36 +114,20 @@ const Admins = ({ adminId, admins, setAdmins }) => {
       {adicionar && (
         <form onSubmit={criarUsuarioHandler}>
           <div style={{ display: 'flex', alignItems: 'flex-end', minWidth: '100%' }}>
-            <div style={{ minWidth: '33%' }}>
-              <label style={{ textTransform: 'upperCase' }} htmlFor="Nome">
-                Nome
-              </label>{' '}
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Nome"
-                  name="nome"
-                  type="text"
-                  id="nome"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
-                />
-              </div>
-            </div>
-            <div style={{ minWidth: '33%' }}>
-              <label style={{ textTransform: 'upperCase' }} htmlFor="email">
-                Email
-              </label>
-              <div className={classes.containerInput}>
-                <input
-                  placeholder="Seu e-mail"
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              </div>
-            </div>
+            <Input
+              value={nome}
+              onChange={(event) => setNome(event.target.value)}
+              label="Nome"
+              type="text"
+              placeholder="Nome"
+            />
+            <Input
+              onChange={(event) => setEmail(event.target.value)}
+              label="E-mail"
+              type="email"
+              placeholder="Seu email"
+              value={email}
+            />
             <div
               className={classes.containerInput}
               style={{ marginBottom: '10px', maxHeight: '35px', marginLeft: '10px' }}
@@ -159,32 +144,22 @@ const Admins = ({ adminId, admins, setAdmins }) => {
         <>
           <div style={{ display: 'flex', padding: '0' }}>
             <div>
-              <button
-                className={`${classes.salvarButton} ${
-                  isEnableSignUp() ? classes.salvarButtonEnabled : classes.salvarButtonDisabled
-                }`}
-                disabled={isEnableSignUp() ? false : true}
-              >
-                Salvar
-              </button>
+              <Button label="Salvar" onClick={criarUsuarioHandler} disabled={disabledButton()} />
             </div>
             <div>
-              <button className={classes.downloadButton} onClick={cancelarEditarPerfil}>
-                Cancelar
-              </button>
+              <Button label="Cancelar" onClick={cancelarEditarPerfil} disabled={false} />
             </div>
           </div>
         </>
       ) : (
         <div>
-          <button
-            className={classes.downloadButton}
+          <Button
+            label="Adicionar"
             onClick={() => {
               setAdicionar(true);
             }}
-          >
-            Adicionar
-          </button>
+            disabled={false}
+          />
         </div>
       )}
       <div>{error}</div>

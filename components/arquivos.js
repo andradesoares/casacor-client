@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import api from '../services/api';
 
 import classes from './arquivos.module.scss';
+import Button from './button';
 
 const Arquivos = ({ userId, nome, logo, setLogo, usuario }) => {
   const filesElement = useRef(null);
@@ -40,8 +41,8 @@ const Arquivos = ({ userId, nome, logo, setLogo, usuario }) => {
     setFileLength(0);
   };
 
-  const isEnableSignUp = () => {
-    return fileLength > 0;
+  const disabledButton = () => {
+    return fileLength == 0;
   };
 
   return (
@@ -57,12 +58,11 @@ const Arquivos = ({ userId, nome, logo, setLogo, usuario }) => {
               src={`https://casa-cor.herokuapp.com/images/${usuario}/${logo}.jpg`}
               alt="BigCo Inc. logo"
             />
-            <button
-              className={`${classes.button} ${classes.buttonEnabled}`}
+            <Button
+              label="Remover Imagem"
               onClick={() => removerFile(logo, userId)}
-            >
-              Remover Imagem
-            </button>
+              disabled={false}
+            />
           </div>
         ) : (
           <div
@@ -75,15 +75,13 @@ const Arquivos = ({ userId, nome, logo, setLogo, usuario }) => {
             />
             {fileLength == 0 && (
               <>
-                <button
-                  style={{ marginBottom: '10px' }}
-                  className={`${classes.button} ${classes.buttonEnabled}`}
+                <Button
+                  label="Carregar arquivo"
                   onClick={(event) => {
                     handleClick(event);
                   }}
-                >
-                  Carregar arquivo
-                </button>
+                  disabled={false}
+                />
                 <input
                   type="file"
                   multiple
@@ -94,18 +92,13 @@ const Arquivos = ({ userId, nome, logo, setLogo, usuario }) => {
                 />
               </>
             )}
-
-            <button
-              className={`${classes.button} ${
-                isEnableSignUp() ? classes.buttonEnabled : classes.buttonDisabled
-              }`}
-              disabled={isEnableSignUp() ? false : true}
+            <Button
+              label="Enviar"
               onClick={() => {
                 sendFile();
               }}
-            >
-              Enviar
-            </button>
+              disabled={disabledButton()}
+            />
           </div>
         )}
       </div>
