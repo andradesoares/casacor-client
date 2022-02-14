@@ -1,55 +1,23 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 import { dynamicSort } from '../services/helpers';
-import api from '../services/api';
+import { Context as UsuarioContext } from '../context/UsuarioContext';
 import { signOut } from '../services/auth';
 import classes from './navbar.module.scss';
 
 import notification from '../images/icons/notification.png';
 
-function NavBar({
-  usuario,
-  tipo,
-  setAdicionados,
-  setNaoAdicionados,
-  adicionados,
-  naoAdicionados,
-  tableName,
-  userId,
-  usuarioOposto,
-}) {
+function NavBar({ usuario, tipo, tableName, userId, usuarioOposto }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const respostaConexao = async (usuarioId, usuarioOpostoId, resposta, usuarioOpostoTipo) => {
-    const response = await api.post(`/${tipo}/confirmarConexao`, {
-      usuarioId,
-      usuarioOpostoId,
-      resposta,
-    });
-
-    if (resposta == 'confirmado') {
-      setAdicionados(
-        adicionados.map((pessoa) =>
-          pessoa[`${usuarioOpostoTipo}_userId`] ==
-          response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
-            ? response.data[`${usuarioOpostoTipo}`]
-            : pessoa
-        )
-      );
-    } else if (resposta == 'recusado') {
-      setNaoAdicionados([...naoAdicionados, response.data[`${usuarioOpostoTipo}`]]);
-      setAdicionados(
-        adicionados.filter(
-          (pessoa) =>
-            pessoa[`${usuarioOpostoTipo}_userId`] !==
-            response.data[`${usuarioOpostoTipo}`][`${usuarioOpostoTipo}_userId`]
-        )
-      );
-    }
-  };
+  const {
+    state: { adicionados },
+    confirmarConexao,
+    recusarConexao,
+  } = useContext(UsuarioContext);
 
   const notifications = (array, usuarioOposto) => {
     return array.filter(
@@ -68,19 +36,14 @@ function NavBar({
             <p>{item.nome}</p>
             <button
               onClick={() => {
-                respostaConexao(
-                  userId,
-                  item[`${usuarioOposto}_userId`],
-                  'confirmado',
-                  usuarioOposto
-                );
+                confirmarConexao(tipo, userId, item[`${usuarioOposto}_userId`], usuarioOposto);
               }}
             >
               Confirmar
             </button>
             <button
               onClick={() => {
-                respostaConexao(userId, item[`${usuarioOposto}_userId`], 'recusado', usuarioOposto);
+                recusarConexao(tipo, userId, item[`${usuarioOposto}_userId`], usuarioOposto);
               }}
             >
               Recusar

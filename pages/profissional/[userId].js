@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { Context as UsuarioContext } from '../../context/UsuarioContext';
 import api from '../../services/api';
 import Infos from '../../components/profissionais/infos';
 import Conexoes from '../../components/conexoes';
@@ -16,12 +17,12 @@ import classes from './user.module.scss';
 function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [usuario, setUsuario] = useState([]);
-  const [adicionados, setAdicionados] = useState([]);
-  const [naoAdicionados, setNaoAdicionados] = useState([]);
   const [display, setDisplay] = useState('home');
   const [ambiente, setAmbiente] = useState('');
   const [logo, setLogo] = useState('');
   const [mensagens, setMensagens] = useState([]);
+
+  const { lerUsuariosOpostos } = useContext(UsuarioContext);
 
   const router = useRouter();
   const { userId } = router.query;
@@ -29,11 +30,12 @@ function Home() {
   useEffect(() => {
     if (Object.keys(router.query).length > 0) {
       usuarioLogado(userId);
-      getProfissionais(userId);
 
       const token = localStorage.getItem('signIntoken');
       const userIdLocal = localStorage.getItem('userId');
       const tipoLocal = localStorage.getItem('tipo');
+
+      lerUsuariosOpostos(tipoLocal, userId);
 
       if (!token || !userIdLocal || !tipoLocal) {
         router.push(`/`);
@@ -56,26 +58,12 @@ function Home() {
     setMensagens(response.data.mensagens);
   };
 
-  const getProfissionais = async (userId) => {
-    const response = await api.get(`/profissional/lerConexoes`, {
-      params: {
-        profissionalId: userId,
-      },
-    });
-    setAdicionados(response.data.fornecedoresAdicionados);
-    setNaoAdicionados(response.data.fornecedoresNaoAdicionados);
-  };
-
   if (isLoading) {
     return null;
   } else {
     return (
       <>
         <NavBar
-          setAdicionados={setAdicionados}
-          setNaoAdicionados={setNaoAdicionados}
-          adicionados={adicionados}
-          naoAdicionados={naoAdicionados}
           tableName="Profissionals"
           usuarioOposto="fornecedor"
           usuario={usuario}
@@ -134,10 +122,6 @@ function Home() {
           {display == 'fornecedores' ? (
             <div className={classes.container}>
               <Conexoes
-                setAdicionados={setAdicionados}
-                setNaoAdicionados={setNaoAdicionados}
-                adicionados={adicionados}
-                naoAdicionados={naoAdicionados}
                 tableName="Profissionals"
                 usuarioOposto="fornecedor"
                 tipo={localStorage.getItem('tipo')}

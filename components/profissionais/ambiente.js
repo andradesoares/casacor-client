@@ -48,6 +48,7 @@ function Ambiente({ ambiente, userId, setAmbiente }) {
               type="checkbox"
               value={aguaDeChuva}
               name="gender"
+              disabled={!editarAmbiente}
               defaultChecked={aguaDeChuva}
             />{' '}
             Agua de chuva
@@ -59,6 +60,7 @@ function Ambiente({ ambiente, userId, setAmbiente }) {
               }}
               type="checkbox"
               value={materialReciclavel}
+              disabled={!editarAmbiente}
               name="gender"
               defaultChecked={materialReciclavel}
             />{' '}
@@ -71,6 +73,7 @@ function Ambiente({ ambiente, userId, setAmbiente }) {
               }}
               type="checkbox"
               value={energiaSolar}
+              disabled={!editarAmbiente}
               name="gender"
               defaultChecked={energiaSolar}
             />{' '}
