@@ -53,6 +53,7 @@ const trocarSenha = async (tipo, password, userId, resetToken, setError, setMess
     });
     setMessage(response.data.message);
   } catch (error) {
+    console.log(error.response.data.error);
     setError(error.response.data.error);
   }
 };
