@@ -5,7 +5,7 @@ import api from '../services/api';
 
 const Mensagem = ({ mensagens }) => {
   return (
-    <div>
+    <div className={classes.mensagem}>
       {mensagens.map((mensagem) => {
         return (
           <div>

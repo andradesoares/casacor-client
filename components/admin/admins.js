@@ -78,11 +78,15 @@ const Admins = ({ adminId, admins, setAdmins }) => {
     <>
       <h3>Admins</h3>
       {admins.map((admin) => (
-        <div key={admin.email} style={{ display: 'flex', alignItems: 'center' }}>
+        <div
+          classeName={classes.div}
+          key={admin.email}
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
           <div style={{ minWidth: '30%', paddingRight: '50px' }}>
             <p>{admin.nome}</p>
           </div>
-          <div style={{ minWidth: '30%', paddingRight: '50px' }}>
+          <div className={classes.email} style={{ minWidth: '30%', paddingRight: '50px' }}>
             <p>{admin.email}</p>
           </div>
           <div>

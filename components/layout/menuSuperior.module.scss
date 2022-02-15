@@ -1,0 +1,29 @@
+.container {
+  position: absolute;
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  min-width: 150px;
+  background-color: white;
+  right: 100px;
+  top: 200px;
+  border: 1px solid black;
+  box-shadow: 5px 5px 0px 0px gray;
+}
+
+.item {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.linkButton {
+  margin: 0;
+  padding: 20px 0;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  &:hover {
+    cursor: pointer;
+  }
+}

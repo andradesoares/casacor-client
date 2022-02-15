@@ -88,11 +88,11 @@ function Infos({ usuario, setUsuario }) {
               style="inline"
               onChange={(event) => setEndereco(event.target.value)}
             />
-            <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
-              <div>
+            <div style={{ display: 'flex', flexDirection: 'row', padding: '0' }}>
+              <div style={{ padding: '0 10px' }}>
                 <Button disabled={disabledButton()} onClick={editarPerfilHandler} label="Salvar" />
               </div>
-              <div>
+              <div style={{ padding: '0 10px' }}>
                 <Button disabled={false} onClick={cancelarEditarPerfil} label="Cancelar" />
               </div>
             </div>

@@ -1,50 +1,10 @@
-.buttonContainer {
-  display: flex;
-  align-items: center;
-  .selected {
-    color: #ff6c44;
-    font-weight: 600;
+@media (max-width: 768px) {
+  .email {
+    display: none;
   }
-  .unselected {
-    color: rgba(227, 120, 75, 0.4);
+  .div {
+    padding: 10px 0;
   }
-
-  .button {
-    text-transform: uppercase;
-    padding: 0 40px;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}
-
-.downloadButton {
-  border: none;
-  padding: 10px;
-  text-transform: uppercase;
-  color: white;
-  font-weight: 600;
-  background-color: #ff6c44;
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.salvarButton {
-  border: none;
-  padding: 10px;
-  text-transform: uppercase;
-  color: white;
-  font-weight: 600;
-}
-.salvarButtonEnabled {
-  background-color: #ff6c44;
-  &:hover {
-    cursor: pointer;
-  }
-}
-.salvarButtonDisabled {
-  background-color: rgba(227, 120, 75, 0.4);
 }
 
 .containerInput {

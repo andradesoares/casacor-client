@@ -1,32 +1,48 @@
-.containerInput {
+.inline {
+  padding: 6px 10px;
   display: flex;
-  background-color: white;
-  border: 1px solid black;
-  justify-content: space-between;
-  padding: 0;
+  flex-direction: row;
+  align-items: center;
+  label {
+    margin-right: 10px;
+    font-weight: 600;
+  }
+  .containerInput {
+    display: flex;
+    background-color: white;
+    border: 1px solid black;
+    justify-content: space-between;
+    padding: 0;
 
-  input,
-  select,
-  option {
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    padding: 5px 0;
-    padding-left: 10px;
-    &:-webkit-autofill {
-      box-shadow: 0 0 0px 1000px white inset;
-      -webkit-box-shadow: 0 0 0px 1000px white inset;
-    }
+    input,
+    select,
+    option {
+      width: 100%;
+      box-sizing: border-box;
+      border: none;
+      padding: 5px 0;
+      padding-left: 10px;
+      &:-webkit-autofill {
+        box-shadow: 0 0 0px 1000px white inset;
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+      }
 
-    &:-webkit-autofill:focus {
-      box-shadow: 0 0 0 50px white inset;
-      -webkit-box-shadow: 0 0 0 50px white inset;
-      -webkit-text-fill-color: #333;
-    }
+      &:-webkit-autofill:focus {
+        box-shadow: 0 0 0 50px white inset;
+        -webkit-box-shadow: 0 0 0 50px white inset;
+        -webkit-text-fill-color: #333;
+      }
 
-    &:focus {
-      outline: none;
-      background-color: white;
+      &:focus {
+        outline: none;
+        background-color: white;
+      }
     }
+  }
+}
+
+@media (max-width: 425px) {
+  .inline {
+    display: block;
   }
 }

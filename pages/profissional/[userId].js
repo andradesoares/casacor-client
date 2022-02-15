@@ -130,6 +130,7 @@ function Home() {
           ) : null}
           {display == 'ambiente' ? (
             <div className={classes.container}>
+              {console.log(ambiente)}
               <Ambiente setAmbiente={setAmbiente} ambiente={ambiente} userId={userId} />
             </div>
           ) : null}

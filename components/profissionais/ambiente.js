@@ -126,11 +126,11 @@ function Ambiente({ ambiente, userId, setAmbiente }) {
               onChange={(event) => setEmailResponsavelObra(event.target.value)}
             />
             {checklist()}
-            <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
-              <div>
+            <div style={{ display: 'flex', flexDirection: 'row', padding: '0' }}>
+              <div style={{ padding: '0 10px' }}>
                 <Button disabled={false} onClick={editarAmbienteHandler} label="Salvar" />
               </div>
-              <div>
+              <div style={{ padding: '0 10px' }}>
                 <Button
                   disabled={false}
                   onClick={() => {

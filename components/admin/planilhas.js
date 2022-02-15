@@ -58,7 +58,7 @@ const Planilhas = ({ fornecedores, profissionais }) => {
       <div style={{ display: 'flex' }}>
         {display == 'profissional' ? (
           <>
-            <div>
+            <div style={{ overflowX: 'auto' }}>
               <h4>Profissionais</h4>
               <table id="table-to-xls" className={classes.table}>
                 <tr>
@@ -88,7 +88,7 @@ const Planilhas = ({ fornecedores, profissionais }) => {
           </>
         ) : null}
         {display == 'fornecedor' ? (
-          <div>
+          <div style={{ overflowX: 'auto' }}>
             <h4>Fornecedores</h4>
             <table id="table-to-xls" className={classes.table}>
               <tr>

@@ -21,7 +21,7 @@ function FormEsqueciSenha({ usuario, route }) {
   };
 
   return (
-    <div style={{ minWidth: '392px' }} className={classes.container}>
+    <div className={classes.container}>
       <h1 className={classes.h1}>Solicitar recuperação de senha</h1>
       <form>
         <Input

@@ -3,6 +3,7 @@
   flex-direction: column;
   padding-bottom: 0;
   align-items: center;
+  flex-wrap: wrap;
   input[type='file'] {
     display: none;
   }
@@ -16,6 +17,16 @@
     display: block;
     margin-top: 10px;
     cursor: pointer;
+  }
+
+  .arquivos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    div {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .button {

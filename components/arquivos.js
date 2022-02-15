@@ -48,57 +48,128 @@ const Arquivos = ({ userId, nome, logo, setLogo, usuario }) => {
   return (
     <>
       <div className={classes.container}>
-        <h3>Logo</h3>
         {logo ? (
-          <div
-            style={{ height: '200px', width: '200px', display: 'flex', flexDirection: 'column' }}
-          >
-            <img
-              style={{ height: '150px', marginBottom: '10px' }}
-              src={`https://casa-cor.herokuapp.com/images/${usuario}/${logo}.jpg`}
-              alt="BigCo Inc. logo"
-            />
-            <Button
-              label="Remover Imagem"
-              onClick={() => removerFile(logo, userId)}
-              disabled={false}
-            />
-          </div>
+          <>
+            <h3>Logo</h3>
+            <div>
+              <img
+                style={{ height: '150px', marginBottom: '10px' }}
+                src={`https://casa-cor.herokuapp.com/images/${usuario}/${logo}.jpg`}
+                alt="BigCo Inc. logo"
+              />
+              <Button
+                label="Remover Imagem"
+                onClick={() => removerFile(logo, userId)}
+                disabled={false}
+              />
+            </div>
+          </>
         ) : (
-          <div
-            style={{ height: '200px', width: '200px', display: 'flex', flexDirection: 'column' }}
-          >
-            <img
-              style={{ height: '150px', marginBottom: '10px' }}
-              src={`https://casa-cor.herokuapp.com/images/not-found.jpg`}
-              alt="BigCo Inc. logo"
-            />
-            {fileLength == 0 && (
-              <>
-                <Button
-                  label="Carregar arquivo"
-                  onClick={(event) => {
-                    handleClick(event);
-                  }}
-                  disabled={false}
-                />
-                <input
-                  type="file"
-                  multiple
-                  ref={filesElement}
-                  name="file"
-                  onChange={(event) => handleChange(event)}
-                  style={{ display: 'none' }}
-                />
-              </>
-            )}
-            <Button
-              label="Enviar"
-              onClick={() => {
-                sendFile();
-              }}
-              disabled={disabledButton()}
-            />
+          <div className={classes.arquivos}>
+            <div>
+              <h3>Logo</h3>
+              <img
+                style={{ height: '150px', marginBottom: '10px' }}
+                src={`https://casa-cor.herokuapp.com/images/not-found.jpg`}
+                alt="BigCo Inc. logo"
+              />
+              {fileLength == 0 && (
+                <>
+                  <Button
+                    label="Carregar arquivo"
+                    onClick={(event) => {
+                      handleClick(event);
+                    }}
+                    disabled={false}
+                  />
+                  <input
+                    type="file"
+                    multiple
+                    ref={filesElement}
+                    name="file"
+                    onChange={(event) => handleChange(event)}
+                    style={{ display: 'none' }}
+                  />
+                </>
+              )}
+              <Button
+                label="Enviar"
+                onClick={() => {
+                  sendFile();
+                }}
+                disabled={disabledButton()}
+              />
+            </div>
+
+            <div>
+              <h3>Logo</h3>
+              <img
+                style={{ height: '150px', marginBottom: '10px' }}
+                src={`https://casa-cor.herokuapp.com/images/not-found.jpg`}
+                alt="BigCo Inc. logo"
+              />
+              {fileLength == 0 && (
+                <>
+                  <Button
+                    label="Carregar arquivo"
+                    onClick={(event) => {
+                      handleClick(event);
+                    }}
+                    disabled={false}
+                  />
+                  <input
+                    type="file"
+                    multiple
+                    ref={filesElement}
+                    name="file"
+                    onChange={(event) => handleChange(event)}
+                    style={{ display: 'none' }}
+                  />
+                </>
+              )}
+              <Button
+                label="Enviar"
+                onClick={() => {
+                  sendFile();
+                }}
+                disabled={disabledButton()}
+              />
+            </div>
+
+            <div>
+              <h3>Logo</h3>
+              <img
+                style={{ height: '150px', marginBottom: '10px' }}
+                src={`https://casa-cor.herokuapp.com/images/not-found.jpg`}
+                alt="BigCo Inc. logo"
+              />
+              {fileLength == 0 && (
+                <>
+                  <Button
+                    label="Carregar arquivo"
+                    onClick={(event) => {
+                      handleClick(event);
+                    }}
+                    disabled={false}
+                  />
+                  <input
+                    type="file"
+                    multiple
+                    ref={filesElement}
+                    name="file"
+                    onChange={(event) => handleChange(event)}
+                    style={{ display: 'none' }}
+                  />
+                </>
+              )}
+              <Button
+                label="Enviar"
+                onClick={() => {
+                  sendFile();
+                }}
+                disabled={disabledButton()}
+              />
+            </div>
           </div>
         )}
       </div>

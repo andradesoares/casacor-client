@@ -26,3 +26,39 @@
     cursor: pointer;
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    position: relative;
+    right: 0px;
+    top: 0px;
+    padding: 0;
+  }
+  .item {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .linkButton {
+    border: none !important;
+  }
+}
+
+@media (max-width: 570px) {
+  .container {
+    position: relative;
+    right: 0px;
+    top: 0px;
+    padding: 0;
+  }
+  .item {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .linkButton {
+    border: none !important;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}

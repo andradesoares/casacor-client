@@ -44,7 +44,7 @@ function RecuperSenha() {
   } else {
     return (
       <>
-        <div style={{ minWidth: '392px' }} className={classes.container}>
+        <div className={classes.container}>
           <h1 className={classes.h1}>Cadastrar nova senha</h1>
           <form>
             {' '}
@@ -60,7 +60,9 @@ function RecuperSenha() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               ></input>{' '}
-              <div>
+              <div
+                style={{ padding: '0', display: 'flex', alignItems: 'center', marginRight: '5px' }}
+              >
                 <Image
                   className={classes.imagePassword}
                   onClick={() => setShowPass(!showPass)}

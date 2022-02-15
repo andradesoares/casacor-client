@@ -93,7 +93,7 @@ function Infos({ usuario, setUsuario }) {
               style="inline"
               onChange={(event) => setPerfilInstagram(event.target.value)}
             />
-            <div style={{ display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', padding: '0' }}>
               <div>
                 <Button disabled={disabledButton()} onClick={editarPerfilHandler} label="Salvar" />
               </div>

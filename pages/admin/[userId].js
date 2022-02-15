@@ -6,6 +6,7 @@ import Usuarios from '../../components/admin/usuarios';
 import Planilhas from '../../components/admin/planilhas';
 import NavBar from '../../components/layout/navbar';
 import MenuLateral from '../../components/layout/menuLateral';
+import MenuSuperior from '../../components/layout/menuSuperior';
 import ItemMenuLateral from '../../components/layout/itemMenuLateral';
 import PaginaPrincipal from '../../components/admin/home';
 import Mensagem from '../../components/admin/mensagem';

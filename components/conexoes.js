@@ -79,7 +79,7 @@ function Conexoes({ tableName, usuarioOposto, tipo }) {
   return (
     <>
       <div className={classes.container}>
-        <div style={{ display: 'flex' }}>
+        <div className={classes.conexoes}>
           <p
             className={`${classes.usuarioOposto} ${
               display == 'adicionados' ? classes.selected : classes.unselected

@@ -8,9 +8,8 @@
     text-align: center;
     margin-top: 0;
   }
-
   form {
-    width: 35%;
+    width: 450px;
     label {
       text-transform: upperCase;
       font-size: 12px;
@@ -98,5 +97,13 @@
   }
   .loginButtonDisabled {
     background-color: rgba(227, 120, 75, 0.4);
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    form {
+      width: 90%;
+    }
   }
 }

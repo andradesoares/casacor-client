@@ -21,6 +21,11 @@
     }
   }
 
+  .conexoes {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .usuarioOposto {
     text-transform: uppercase;
     padding: 0 40px;
@@ -38,5 +43,15 @@
 
   .usuarioOpostoNome {
     min-width: 20%;
+  }
+  @media (max-width: 425px) {
+    .usuarioOposto {
+      padding: 0 10px;
+    }
+    .conexoes {
+      padding: 0;
+      min-width: 100%;
+      justify-content: center;
+    }
   }
 }

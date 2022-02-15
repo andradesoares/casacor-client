@@ -76,4 +76,9 @@
   .buttonDisabled {
     background-color: rgba(227, 120, 75, 0.4);
   }
+  @media (max-width: 425px) {
+    .containerInfo {
+      display: block;
+    }
+  }
 }

@@ -26,11 +26,10 @@ function NavBar({ usuario, tipo }) {
               padding: '0 10px',
               height: '30px',
               margin: '0',
+              alignItems: 'center',
             }}
           >
-            <p style={{ display: 'flex', alignItems: 'center', margin: '0 5px 0 0' }}>
-              Seja bem-vindo
-            </p>
+            <p className={classes.bemVindo}>Seja bem-vindo</p>
             <p
               style={{ display: 'flex', alignItems: 'center', margin: '0' }}
               className={classes.usuario}

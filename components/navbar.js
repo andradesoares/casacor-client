@@ -70,9 +70,7 @@ function NavBar({ usuario, tipo, tableName, userId, usuarioOposto }) {
               margin: '0',
             }}
           >
-            <p style={{ display: 'flex', alignItems: 'center', margin: '0 5px 0 0' }}>
-              Seja bem-vindo
-            </p>
+            <p className={classes.bemVindo}>Seja bem-vindo</p>
             <p
               style={{ display: 'flex', alignItems: 'center', margin: '0' }}
               className={classes.usuario}

@@ -67,7 +67,7 @@ const Usuarios = ({
           }}
           disabled={false}
         />
-        {usuario.status == 'pendente' ? (
+        {status == 'pendente' ? (
           <Button
             label={status == 'pendente' ? 'Recusar' : null}
             onClick={() => {
@@ -83,7 +83,7 @@ const Usuarios = ({
   const status = (status) => {
     return (
       <p
-        className={`${classes.button} ${tipo == status ? classes.selected : classes.unselected}`}
+        className={`${classes.button} ${display == status ? classes.selected : classes.unselected}`}
         onClick={() => {
           setDisplay(status);
         }}

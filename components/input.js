@@ -5,7 +5,7 @@ import classes from './input.module.scss';
 const Input = ({ onChange, label, style, type, placeholder, value }) => {
   return style == 'inline' ? (
     <>
-      <div style={{ display: 'flex', flexDirection: 'row', padding: '0', alignItems: 'center' }}>
+      <div className={classes.inline}>
         <label htmlFor="inputName">{label}</label>
         <div className={classes.containerInput}>
           <input
@@ -20,14 +20,16 @@ const Input = ({ onChange, label, style, type, placeholder, value }) => {
     </>
   ) : (
     <>
-      <label htmlFor="inputName">{label}</label>
-      <input
-        placeholder={placeholder}
-        type={type}
-        value={value}
-        name="inputName"
-        onChange={onChange}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', padding: '0' }}>
+        <label htmlFor="inputName">{label}</label>
+        <input
+          placeholder={placeholder}
+          type={type}
+          value={value}
+          name="inputName"
+          onChange={onChange}
+        />
+      </div>
     </>
   );
 };

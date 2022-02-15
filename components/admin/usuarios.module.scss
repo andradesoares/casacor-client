@@ -16,6 +16,13 @@
       cursor: pointer;
     }
   }
+  @media (max-width: 900px) {
+    padding: 10px 0;
+    flex-wrap: wrap;
+    .button {
+      padding: 0 5px;
+    }
+  }
 }
 
 .selectButton {

@@ -1,16 +1,5 @@
-.button {
-  border: none;
-  padding: 10px;
-  text-transform: uppercase;
-  color: white;
-  font-weight: 600;
-}
-.buttonEnabled {
-  background-color: #ff6c44;
-  &:hover {
-    cursor: pointer;
+@media (max-width: 768px) {
+  .mensagem {
+    padding: 0;
   }
-}
-.buttonDisabled {
-  background-color: rgba(227, 120, 75, 0.4);
 }

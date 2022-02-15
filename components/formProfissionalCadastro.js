@@ -67,7 +67,7 @@ function FormProfissionalCadastro({ setUsuario, usuario }) {
           value={nomeEscritorio}
           onChange={(event) => setNomeEscritorio(event.target.value)}
         />
-        <div style={{ display: 'flex', padding: 0, justifyContent: 'space-between' }}>
+        <div className={classes.flexInput}>
           <div style={{ padding: 0 }}>
             <Input
               placeholder="Data de Nascimento"
@@ -78,7 +78,7 @@ function FormProfissionalCadastro({ setUsuario, usuario }) {
               value={dataDeNascimento}
             />
           </div>
-          <div style={{ padding: 0 }}>
+          <div style={{ padding: 0, marginLeft: '10px' }}>
             <Input
               placeholder="CPF"
               label="CPF"

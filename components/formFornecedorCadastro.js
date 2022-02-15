@@ -67,7 +67,7 @@ function FormFornecedorCadastro({ setUsuario, usuario }) {
           onChange={(event) => setDescricaoProduto(event.target.value)}
         />
 
-        <div style={{ display: 'flex', padding: 0, justifyContent: 'space-between' }}>
+        <div className={classes.flexInput}>
           <div style={{ padding: 0 }}>
             <Input
               placeholder="Telefone"
@@ -77,7 +77,7 @@ function FormFornecedorCadastro({ setUsuario, usuario }) {
               onChange={(event) => setTelefone(phone(event.target.value))}
             />
           </div>
-          <div style={{ padding: 0 }}>
+          <div style={{ padding: 0, marginLeft: '10px' }}>
             <Input
               placeholder="E-mail"
               type="email"

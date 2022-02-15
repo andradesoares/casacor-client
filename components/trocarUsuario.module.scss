@@ -12,6 +12,9 @@
   .button {
     text-transform: uppercase;
     padding: 0 40px;
+    @media (max-width: 500px) {
+      padding: 0 10px;
+    }
     &:hover {
       cursor: pointer;
     }
