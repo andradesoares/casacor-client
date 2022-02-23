@@ -47,7 +47,7 @@ function Home() {
 
   const usuarioLogado = async (term) => {
     const response = await api.post(`/fornecedor/lerUsuario`, {
-      fornecedorId: term,
+      userId: term,
     });
     setUsuario(response.data.usuario);
     setLogo(response.data.usuario.logo);

@@ -50,7 +50,7 @@ function Home() {
 
   const usuarioLogado = async (term) => {
     const response = await api.post(`/profissional/lerUsuario`, {
-      profissionalId: term,
+      userId: term,
     });
     setUsuario(response.data.usuario);
     setAmbiente(response.data.usuario.Ambiente);
